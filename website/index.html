@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Levene Energy Holdings Limited</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --dark-blue: #041844;
+      --green: #2baa31;
+      --light-green: #e8f5e9;
+      --hover-green: #dcedc8;
+      --topbar-bg: #f5f5f5;
+      --nav-bg: #ffffff;
+      --text-black: #000000;
+      --linkedin: #0a66c2;
+      --facebook: #1877f2;
+      --x-black: #000000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #222;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .top-bar {
+      background: var(--topbar-bg);
+      padding: 0.6rem 6%;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .social-icons a {
+      font-size: 1.2rem;
+      margin-left: 1.0rem;
+      transition: 0.3s;
+    }
+
+    .social-icons .linkedin { color: var(--linkedin); }
+    .social-icons .facebook { color: var(--facebook); }
+    .social-icons .x { color: var(--x-black); }
+    .social-icons .instagram {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .social-icons a:hover { opacity: 0.8; }
+
+    .nav-container {
+      background: var(--nav-bg);
+      padding: 1.0rem 3%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo img {
+      height: 70px;
+      width: auto;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.0rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-black);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: 0.3s;
+      padding: 0.6rem 0.4rem;
+    }
+
+    nav a:hover {
+      color: var(--green);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 0.1rem;
+    }
+
+    .dropdown .arrow {
+      color: var(--green);
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: #ffffff;
+      min-width: 220px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+      border-radius: 6px;
+      top: 100%;
+      left: 0;
+      z-index: 10;
+      margin-top: 4px;
+      border: 1px solid #eee;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      opacity: 0;
+      visibility: hidden;
+      padding: 8px 0;
+    }
+
+    .dropdown::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: transparent;
+    }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown-content:hover {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .dropdown-content a {
+      color: var(--text-black);
+      padding: 12px 18px;
+      display: block;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .dropdown-content a:hover {
+      background: var(--light-green);
+      color: var(--dark-blue);
+    }
+
+    .hero {
+      position: relative;
+      height: 60vh;
+      min-height: 600px;
+      color: white;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-color: transparent;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(42, 61, 100, 0.58);
+      z-index: 1;
+    }
+
+    .hero-slides {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      animation: slideShow 9s infinite;
+      z-index: 0;
+    }
+
+    @keyframes slideShow {
+      0%   { background-image: url('../image/hero-bg.jpg'); }
+      33%  { background-image: url('../image/16.-Levene-Hydrocarbon-Webpage-Image.jpg'); }
+      66%  { background-image: url('../image/Solar-Mini-Grid-Project.jpg'); }
+      100% { background-image: url('../image/hero-bg.jpg'); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 0 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 3.0rem;
+      margin-bottom: 1.0rem;
+      margin-top: -5.5rem;
+      text-shadow: 0 3px 12px rgba(0,0,0,0.7);
+    }
+
+    .hero p {
+      font-size: 1.0rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.95;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    .btn {
+      background: var(--green);
+      color: white;
+      padding: 0.7rem 2.0rem;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: small;
+      margin: 0.6rem;
+      transition: all 0.35s;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .btn:hover {
+      background: #239128;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .cards-section {
+      padding: 6rem 6% 6rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);           
+      gap: 2.0rem;
+      max-width: 1800px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 2.0rem 2rem;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      transition: all 0.35s ease;
+      border: 1px solid #f0f0f0;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(43,170,49,0.12);
+      border-color: var(--light-green);
+    }
+
+    .card-icon {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 1.8rem;
+      display: block;
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      color: var(--dark-blue);
+      margin: 0 0 .4rem;
+      font-weight: 650;
+    }
+
+    .card p {
+      color: #444;
+      font-size: 1.0rem;
+      line-height: 1.50;
+    }
+
+   
+    .mvv-section {
+      background: linear-gradient(220deg, #0e1166 , #0e7033 );
+      color: white;
+      padding: 5rem 6% 3rem;
+      text-align: center;
+      
+    }
+
+    .mvv-row {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .mvv-column {
+      flex: 1;
+      min-width: 300px;
+      padding: 0 1rem;
+    }
+
+    .mvv-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.2rem;
+      display: block;
+      object-fit: contain; 
+    }
+
+    .mvv-column h4 {
+      font-size: 1.8rem;
+      margin: 0.5rem 0 0.8rem;
+      font-weight: 600;
+    }
+
+    .mvv-column p {
+      font-size: 1.05rem;
+      opacity: 0.92;
+      line-height: 1.55;
+    }
+
+    footer {
+      background: var(--dark-blue);
+      color: white;
+      padding: 4rem 6% 2rem;
+      text-align: center;
+    }
+
+    .bottom-bar {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #2a3b5e;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 1024px) {
+      .mvv-row {
+        flex-wrap: wrap;
+        gap: 3rem;
+      }
+      .mvv-section {
+        padding: 4rem 5% 5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mvv-row {
+        flex-direction: column;
+        gap: 3.5rem;
+      }
+      .mvv-icon {
+        width: 70px;
+        height: 70px;
+      }
+      .mvv-column h4 {
+        font-size: 1.6rem;
+      }
+      .cards-section {
+        grid-template-columns: 1fr;
+        padding: 4rem 5% 6rem;
+      }
+      .hero {
+        height: 70vh;
+        min-height: 500px;
+      }
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="top-bar">
+      <div class="social-icons">
+        <a href="https://ng.linkedin.com/company/leveneenergygroup" target="_blank" class="linkedin"><i class="fab fa-linkedin"></i></a>
+        <a href="https://x.com/LeveneEnergy" target="_blank" class="x"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/leveneenergy" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+
+    <div class="nav-container">
+      <div class="logo">
+        <img src="../image/levenelogo.png" alt="Levene Energy Holdings Limited">
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#home">HOME</a></li>
+          <li class="dropdown">
+            <a href="#">ABOUT <span class="arrow">▼</span></a>
+            <div class="dropdown-content">
+              <a href="#">About Us</a>
+              <a href="#">Who We Are</a>
+              <a href="#">Corporate Governance</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="#">SUBSIDIARIES <span class="arrow">▼</span></a>
+            <div class="dropdown-content">
+              <a href="#">Our Subsidiaries</a>
+              <a href="#">Levene Hydrocarbon Limited</a>
+              <a href="#">Levene Energy Development</a>
+              <a href="#">Levene Trading</a>
+            </div>
+          </li>
+          <li><a href="#">MANAGEMENT TEAM</a></li>
+          <li class="dropdown">
+            <a href="#">MEDIA <span class="arrow">▼</span></a>
+            <div class="dropdown-content">
+              <a href="#">Publications</a>
+              <a href="#">News</a>
+            </div>
+          </li>
+          <li><a href="blog.html">BLOG</a></li>
+          <li><a href="#">CSR</a></li>
+          <li><a href="#contact">CONTACT</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero with slideshow -->
+  <section class="hero" id="home">
+    <div class="hero-slides"></div>
+    <div class="hero-content">
+      <h1>The Innovative Solutions Provider</h1>
+      <p>Levene Energy operates in the oil & gas and energy sector and through its <br> component entities, provides innovative solutions across the value <br> chain from upstream, midstream to downstream.</p>
+      <a href="#" class="btn btn-outline">LEARN MORE</a>
+      <a href="#" class="btn">OUR BUSINESS</a>
+    </div>
+  </section>
+
+  <!-- Cards section -->
+  <section class="cards-section">
+    <div class="card">
+      <svg class="card-icon" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="34" y="28" width="32" height="32" rx="6" fill="none" stroke="#041844" stroke-width="5"/>
+        <rect x="41" y="16" width="7" height="12" fill="none" stroke="#041844" stroke-width="5"/>
+        <rect x="52" y="16" width="7" height="12" fill="none" stroke="#041844" stroke-width="5"/>
+        <path d="M50 60 Q 44 74, 50 82 Q 56 90, 50 96" fill="none" stroke="#2baa31" stroke-width="9" stroke-linecap="round"/>
+        <path d="M50 96 L 50 100" fill="none" stroke="#2baa31" stroke-width="9" stroke-linecap="round"/>
+      </svg>
+      <h3>Integrated Energy Solutions</h3>
+      <p>Levene Energy Holdings offers comprehensive solutions across the entire energy value chain, from upstream exploration to renewable energy deployment. Our expertise and diverse subsidiaries enable us to provide integrated solutions tailored to our clients' needs, ensuring operational excellence and sustainable growth.</p>
+    </div>
+
+    <div class="card">
+      <svg class="card-icon" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="32" r="18" fill="none" stroke="#2baa31" stroke-width="5"/>
+        <line x1="50" y1="10" x2="50" y2="20" stroke="#2baa31" stroke-width="5"/>
+        <line x1="50" y1="44" x2="50" y2="54" stroke="#2baa31" stroke-width="5"/>
+        <line x1="30" y1="32" x2="40" y2="32" stroke="#2baa31" stroke-width="5"/>
+        <line x1="60" y1="32" x2="70" y2="32" stroke="#2baa31" stroke-width="5"/>
+        <rect x="24" y="56" width="52" height="32" rx="4" fill="none" stroke="#041844" stroke-width="5"/>
+        <line x1="24" y1="66" x2="76" y2="66" stroke="#041844" stroke-width="3" opacity="0.6"/>
+        <line x1="24" y1="76" x2="76" y2="76" stroke="#041844" stroke-width="3" opacity="0.6"/>
+        <line x1="50" y1="56" x2="50" y2="88" stroke="#041844" stroke-width="3" opacity="0.6"/>
+      </svg>
+      <h3>Global Energy Trading</h3>
+      <p>Levene Energy Holdings excels in global energy trading, leveraging our extensive network and trading book to deliver reliable supply and optimal pricing for crude oil, refined petroleum products, LNG, and more. We actively trade in major markets worldwide, providing seamless energy solutions to our customers.</p>
+    </div>
+
+    <div class="card">
+      <svg class="card-icon" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="20" fill="none" stroke="#2baa31" stroke-width="5"/>
+        <path d="M50 30 A20 20 0 1 1 30 50" fill="none" stroke="#041844" stroke-width="6" stroke-linecap="round"/>
+        <path d="M50 70 A20 20 0 1 0 70 50" fill="none" stroke="#041844" stroke-width="6" stroke-linecap="round"/>
+        <polygon points="30,50 40,45 40,55" fill="#041844"/>
+        <polygon points="70,50 60,45 60,55" fill="#041844"/>
+      </svg>
+      <h3>Renewable Energy Innovation</h3>
+      <p>Levene Energy Holdings pioneers innovative solutions for the Nigerian market. With locally assembled solar panels and the capability to deploy cutting-edge solar technology infrastructure, we empower the renewable energy industry and contribute to a sustainable future.</p>
+    </div>
+  </section>
+
+  <!-- Mission / Vision / Values -->
+  <section class="mvv-section">
+    <div class="mvv-row">
+      <div class="mvv-column">
+        <img src="../image/mission.png" class="mvv-icon" alt="Mission Icon" />
+        <h4>Mission</h4>
+        <p>Levene is an innovative solutions provider to the global energy sector leveraging on advanced technology, highly qualified professionals and global best practices to create value for its stakeholders.</p>
+      </div>
+
+      <div class="mvv-column">
+        <img src="../image/vision.png" class="mvv-icon" alt="Vision Icon" />
+        <h4>Vision</h4>
+        <p>To be a global leader in energy solutions characterized by quality, professionalism, and a commitment to excellence.</p>
+      </div>
+
+      <div class="mvv-column">
+        <img src="../image/values.png" class="mvv-icon" alt="Values Icon" />
+        <h4>Values</h4>
+        <p>Tenacity | Initiative | Excellence | Depth of Character | Diligence</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="bottom-bar">
+      © 2026 Levene Energy Holdings Limited. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
