@@ -5,9 +5,9 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'Leveneenergycms',
+  title: 'leveneenergy-studio',
 
-  projectId: '3m8xes87',
+  projectId: '3r3o1b2c',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],

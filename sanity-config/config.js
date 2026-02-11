@@ -3,7 +3,7 @@
 
 const SANITY_CONFIG = {
     // Your Sanity project ID
-    projectId: '3m8xes87',
+    projectId: '3r3o1b2c',
     
     // Your Sanity dataset (typically 'production')
     dataset: 'production',
