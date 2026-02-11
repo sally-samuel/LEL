@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="page-title">Blog Post - Levene Energy Holdings</title>
+  <link rel="stylesheet" href="./css/blog.css">
+  <link rel="stylesheet" href="./css/style.css">
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  
+  <style>
+    /* Optional inline overrides/enhancements for single post – feel free to move to blog.css later */
+    .post-header {
+      text-align: center;
+      padding: 5rem 6% 3rem;
+      background: linear-gradient(135deg, #f8f9fa, #e8f5e9);
+    }
+    .featured-image {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 2rem 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .post-meta {
+      color: #777;
+      font-size: 1rem;
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+    .post-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 6% 4rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #333;
+    }
+    .post-body h2, .post-body h3 {
+      color: var(--dark-blue, #0a3d62);
+      margin: 2.5rem 0 1rem;
+    }
+    .post-body p {
+      margin-bottom: 1.5rem;
+    }
+    .post-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    .error, .loading {
+      text-align: center;
+      padding: 6rem 1rem;
+      color: #777;
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="top-bar">
+      <div class="social-icons">
+        <a href="https://ng.linkedin.com/company/leveneenergygroup" target="_blank" class="linkedin"><i class="fab fa-linkedin"></i></a>
+        <a href="https://x.com/LeveneEnergy" target="_blank" class="x"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/leveneenergy" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+
+    <div class="nav-container">
+      <div class="logo">
+        <img src="./image/levenelogo.png" alt="Levene Energy Holdings Limited">
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+          <li class="dropdown">
+            <a href="#">ABOUT <span class="arrow">▼</span></a>
+            <div class="dropdown-content">
+              <a href="#">About Us</a>
+              <a href="#">Who We Are</a>
+              <a href="#">Corporate Governance</a>
+            </div>
+          </li>
+          <li class="dropdown">
+            <a href="#">SUBSIDIARIES <span class="arrow">▼</span></a>
+            <div class="dropdown-content">
+              <a href="#">Our Subsidiaries</a>
+              <a href="#">Levene Hydrocarbon Limited</a>
+              <a href="#">Levene Energy Development</a>
+              <a href="#">Levene Trading</a>
+            </div>
+          </li>
+          <li><a href="#">MANAGEMENT TEAM</a></li>
+          <li class="dropdown">
+            <a href="#">MEDIA <span class="arrow">▼</span></a>
+            <div class="dropdown-content">
+              <a href="#">Publications</a>
+              <a href="#">News</a>
+            </div>
+          </li>
+          <li><a href="blog.html">BLOG</a></li>
+          <li><a href="#">CSR</a></li>
+          <li><a href="#contact">CONTACT</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="post-header" id="post-header">
+    <h1 id="post-title">Loading article...</h1>
+    <div class="post-meta" id="post-meta"></div>
+  </section>
+
+  <main class="post-body" id="post-content">
+    <div class="loading">Loading full article...</div>
+  </main>
+
+  <footer id="contact">
+    <div class="bottom-bar">
+      © 2026 Levene Energy Holdings Limited. All rights reserved.
+    </div>
+  </footer>
+
+  <script type="module">
+    const PROJECT_ID   = '3m8xes87';
+    const DATASET      = 'production';
+    const API_VERSION  = '2025-01-28'; // consider updating to a more recent version like 'v2026-02-01'
+
+    const baseUrl = `https://${PROJECT_ID}.apicdn.sanity.io/v${API_VERSION}/data/query/${DATASET}`;
+
+    // Get slug from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+
+    async function getPost() {
+      if (!slug) {
+        return null;
+      }
+
+      const query = `
+        *[_type == "post" && slug.current == $slug][0] {
+          title,
+          publishedAt,
+          "imageUrl": mainImage.asset->url,
+          excerpt,
+          body[] {
+            ...,
+            _type == "image" => {
+              "imageUrl": asset->url
+            }
+          }
+        }
+      `;
+
+      const params = new URLSearchParams();
+      params.append('query', query);
+      params.append('$slug', slug);
+
+      const url = `${baseUrl}?${params}`;
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Sanity responded with ${res.status}`);
+        
+        const json = await res.json();
+        return json.result || null;
+      } catch (err) {
+        console.error('Failed to load post:', err);
+        return null;
+      }
+    }
+
+    function formatDate(isoString) {
+      if (!isoString) return 'Date not available';
+      return new Date(isoString).toLocaleDateString('en-GB', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+
+    function improveImageUrl(url, width = 1200) {
+      if (!url) return '';
+      return `${url}?w=${width}&auto=format&fit=crop&q=85`;
+    }
+
+    async function renderPost() {
+      const contentEl = document.getElementById('post-content');
+      const titleEl   = document.getElementById('post-title');
+      const metaEl    = document.getElementById('post-meta');
+
+      if (!slug) {
+        contentEl.innerHTML = `
+          <div class="error">
+            <h2>No article selected</h2>
+            <p>Please use a valid link from the <a href="blog.html">blog listing</a>.</p>
+          </div>
+        `;
+        titleEl.textContent = 'No Post Selected';
+        return;
+      }
+
+      const post = await getPost();
+
+      if (!post) {
+        contentEl.innerHTML = `
+          <div class="error">
+            <h2>Article not found</h2>
+            <p>This post may have been removed or the link is incorrect.</p>
+            <p><a href="blog.html">← Back to all posts</a></p>
+          </div>
+        `;
+        titleEl.textContent = 'Post Not Found';
+        return;
+      }
+
+      // Update title and meta
+      titleEl.textContent = post.title || 'Untitled Article';
+      document.getElementById('page-title').textContent = `${post.title || 'Article'} - Levene Energy Holdings`;
+      metaEl.innerHTML = post.publishedAt ? formatDate(post.publishedAt) : 'Date not available';
+
+      // Build content
+      let html = '';
+
+      if (post.imageUrl) {
+        html += `
+          <img 
+            class="featured-image" 
+            src="${improveImageUrl(post.imageUrl)}" 
+            alt="${post.title || 'Featured image'}"
+          >
+        `;
+      }
+
+      if (post.excerpt) {
+        html += `<p class="post-excerpt"><em>${post.excerpt}</em></p>`;
+      }
+
+      // Render body (Portable Text) – basic implementation
+      if (post.body && post.body.length > 0) {
+        html += post.body.map(block => {
+          if (block._type === 'block') {
+            let text = (block.children || []).map(span => {
+              let t = span.text || '';
+              if (span.marks?.includes('strong')) t = `<strong>${t}</strong>`;
+              if (span.marks?.includes('em'))     t = `<em>${t}</em>`;
+              // You can add more mark handling (links, code, underline...) here
+              return t;
+            }).join('');
+
+            switch (block.style) {
+              case 'h1': return `<h1>${text}</h1>`;
+              case 'h2': return `<h2>${text}</h2>`;
+              case 'h3': return `<h3>${text}</h3>`;
+              case 'blockquote': return `<blockquote>${text}</blockquote>`;
+              default: return `<p>${text}</p>`;
+            }
+          }
+          
+          if (block._type === 'image' && block.imageUrl) {
+            return `<img src="${improveImageUrl(block.imageUrl, 900)}" alt="Image in article" />`;
+          }
+
+          return '';
+        }).join('');
+      } else {
+        html += '<p><em>No additional content available.</em></p>';
+      }
+
+      contentEl.innerHTML = html;
+    }
+
+    renderPost();
+  </script>
+
+</body>
+</html>
