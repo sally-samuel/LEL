@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   
   <style>
+    /* Optional inline overrides/enhancements for single post – feel free to move to blog.css later */
     .post-header {
       text-align: center;
       padding: 5rem 6% 3rem;
@@ -38,28 +39,18 @@
       line-height: 1.7;
       color: #333;
     }
-    .post-body h1, .post-body h2, .post-body h3 {
-      color: #0a3d62;
+    .post-body h2, .post-body h3 {
+      color: var(--dark-blue, #0a3d62);
       margin: 2.5rem 0 1rem;
     }
     .post-body p {
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.5rem;
     }
     .post-body img {
       max-width: 100%;
       height: auto;
       border-radius: 8px;
       margin: 1.5rem 0;
-    }
-    .post-body blockquote {
-      border-left: 4px solid #ccc;
-      padding-left: 1.2rem;
-      color: #555;
-      font-style: italic;
-      margin: 2rem 0;
-    }
-    .post-body ul, .post-body ol {
-      margin: 1.2rem 0 1.2rem 1.8rem;
     }
     .error, .loading {
       text-align: center;
@@ -140,35 +131,18 @@
   <script type="module">
     const PROJECT_ID   = '3r3o1b2c';
     const DATASET      = 'production';
-    const API_VERSION  = '2025-01-28';
+    const API_VERSION  = '2025-01-28'; // consider updating to a more recent version like 'v2026-02-01'
 
     const baseUrl = `https://${PROJECT_ID}.apicdn.sanity.io/v${API_VERSION}/data/query/${DATASET}`;
 
-    // ── Slug extraction + cleaning ───────────────────────────────────────────
+    // Get slug from URL
     const urlParams = new URLSearchParams(window.location.search);
-    let slug = urlParams.get('slug');
-
-    // Fallback for clean URLs like /post/your-slug
-    if (!slug) {
-      const pathParts = window.location.pathname.split('/').filter(Boolean);
-      slug = pathParts[pathParts.length - 1];
-    }
-
-    // Remove trailing / \ spaces tabs newlines etc.
-    if (slug) {
-      slug = slug.replace(/[\\\/ \t\n\r]+$/, '').trim();
-    }
-
-    console.log('Current page URL:', window.location.href);
-    console.log('Cleaned slug used for query:', slug || '(missing)');
+    const slug = urlParams.get('slug');
 
     async function getPost() {
       if (!slug) {
-        console.warn('No slug found in URL or path');
         return null;
       }
-
-      console.log('Fetching post for slug:', slug);
 
       const query = `
         *[_type == "post" && slug.current == $slug][0] {
@@ -179,9 +153,7 @@
           body[] {
             ...,
             _type == "image" => {
-              "imageUrl": asset->url,
-              alt,
-              caption
+              "imageUrl": asset->url
             }
           }
         }
@@ -191,16 +163,16 @@
       params.append('query', query);
       params.append('$slug', slug);
 
+      const url = `${baseUrl}?${params}`;
+
       try {
-        const res = await fetch(`${baseUrl}?${params}`);
-        if (!res.ok) {
-          throw new Error(`Sanity fetch failed: ${res.status} ${res.statusText}`);
-        }
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Sanity responded with ${res.status}`);
+        
         const json = await res.json();
-        console.log('Sanity full response:', json);
         return json.result || null;
       } catch (err) {
-        console.error('Error fetching from Sanity:', err);
+        console.error('Failed to load post:', err);
         return null;
       }
     }
@@ -216,7 +188,7 @@
 
     function improveImageUrl(url, width = 1200) {
       if (!url) return '';
-      return `${url}?w=${width}&fit=max&auto=format&fm=webp&q=80`;
+      return `${url}?w=${width}&auto=format&fit=crop&q=85`;
     }
 
     async function renderPost() {
@@ -228,7 +200,7 @@
         contentEl.innerHTML = `
           <div class="error">
             <h2>No article selected</h2>
-            <p>No slug found in the URL. Please click a link from the <a href="blog.html">blog page</a>.</p>
+            <p>Please use a valid link from the <a href="blog.html">blog listing</a>.</p>
           </div>
         `;
         titleEl.textContent = 'No Post Selected';
@@ -241,15 +213,7 @@
         contentEl.innerHTML = `
           <div class="error">
             <h2>Article not found</h2>
-            <p>Slug tried: <strong>${slug}</strong></p>
-            <p>This means no post in Sanity matches this exact slug (case-sensitive, no trailing \\ / or spaces).</p>
-            <p>Check:
-              <ul style="text-align:left; max-width:600px; margin:1rem auto;">
-                <li>Exact slug value in Sanity Studio (Slug → Current)</li>
-                <li>Post is published (not draft) in "${DATASET}" dataset</li>
-                <li>PROJECT_ID '3r3o1b2c' is correct for your project</li>
-              </ul>
-            </p>
+            <p>This post may have been removed or the link is incorrect.</p>
             <p><a href="blog.html">← Back to all posts</a></p>
           </div>
         `;
@@ -257,24 +221,20 @@
         return;
       }
 
-      console.log('Post loaded successfully:', post.title);
-      console.log('Body blocks found:', post.body?.length || 0);
-
-      // ── Render header ──────────────────────────────────────────────────────
+      // Update title and meta
       titleEl.textContent = post.title || 'Untitled Article';
       document.getElementById('page-title').textContent = `${post.title || 'Article'} - Levene Energy Holdings`;
       metaEl.innerHTML = post.publishedAt ? formatDate(post.publishedAt) : 'Date not available';
 
-      // ── Build article content ──────────────────────────────────────────────
+      // Build content
       let html = '';
 
       if (post.imageUrl) {
         html += `
           <img 
             class="featured-image" 
-            src="${improveImageUrl(post.imageUrl, 1200)}" 
+            src="${improveImageUrl(post.imageUrl)}" 
             alt="${post.title || 'Featured image'}"
-            loading="lazy"
           >
         `;
       }
@@ -283,59 +243,35 @@
         html += `<p class="post-excerpt"><em>${post.excerpt}</em></p>`;
       }
 
-      if (post.body && Array.isArray(post.body) && post.body.length > 0) {
+      // Render body (Portable Text) – basic implementation
+      if (post.body && post.body.length > 0) {
         html += post.body.map(block => {
-          // Standalone image block
-          if (block._type === 'image' && block.imageUrl) {
-            return `
-              <figure style="margin: 2.5rem auto; text-align: center; max-width: 100%;">
-                <img 
-                  src="${improveImageUrl(block.imageUrl, 900)}" 
-                  alt="${block.alt || 'Image in article'}" 
-                  loading="lazy"
-                  style="border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"
-                >
-                ${block.caption ? `<figcaption style="margin-top:0.8rem; color:#555; font-size:0.95rem; font-style:italic;">${block.caption}</figcaption>` : ''}
-              </figure>
-            `;
-          }
+          if (block._type === 'block') {
+            let text = (block.children || []).map(span => {
+              let t = span.text || '';
+              if (span.marks?.includes('strong')) t = `<strong>${t}</strong>`;
+              if (span.marks?.includes('em'))     t = `<em>${t}</em>`;
+              // You can add more mark handling (links, code, underline...) here
+              return t;
+            }).join('');
 
-          if (block._type !== 'block') return '';
-
-          // Text with formatting
-          const childrenHtml = (block.children || []).map(child => {
-            if (!child.text) return '';
-            let t = child.text;
-
-            if (child.marks?.includes('strong'))   t = `<strong>${t}</strong>`;
-            if (child.marks?.includes('em'))       t = `<em>${t}</em>`;
-            if (child.marks?.includes('underline')) t = `<u>${t}</u>`;
-            if (child.marks?.includes('code'))     t = `<code>${t}</code>`;
-
-            if (child.marks && block.markDefs) {
-              const linkDef = block.markDefs.find(def => child.marks.includes(def._key));
-              if (linkDef?._type === 'link' && linkDef.href) {
-                t = `<a href="${linkDef.href}" target="_blank" rel="noopener noreferrer" style="color:#0066cc; text-decoration:underline;">${t}</a>`;
-              }
+            switch (block.style) {
+              case 'h1': return `<h1>${text}</h1>`;
+              case 'h2': return `<h2>${text}</h2>`;
+              case 'h3': return `<h3>${text}</h3>`;
+              case 'blockquote': return `<blockquote>${text}</blockquote>`;
+              default: return `<p>${text}</p>`;
             }
-
-            return t;
-          }).join('');
-
-          const style = block.style || 'normal';
-          if (style === 'normal') return `<p>${childrenHtml}</p>`;
-          if (style.startsWith('h')) return `<${style}>${childrenHtml}</${style}>`;
-          if (style === 'blockquote') return `<blockquote>${childrenHtml}</blockquote>`;
-
-          if (block.listItem) {
-            const tag = block.listItem === 'number' ? 'ol' : 'ul';
-            return `<${tag}><li>${childrenHtml}</li></${tag}>`;
+          }
+          
+          if (block._type === 'image' && block.imageUrl) {
+            return `<img src="${improveImageUrl(block.imageUrl, 900)}" alt="Image in article" />`;
           }
 
-          return `<p>${childrenHtml}</p>`;
+          return '';
         }).join('');
       } else {
-        html += '<p style="font-style:italic; color:#777;">No additional body content available.</p>';
+        html += '<p><em>No additional content available.</em></p>';
       }
 
       contentEl.innerHTML = html;
