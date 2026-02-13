@@ -127,158 +127,212 @@
       © 2026 Levene Energy Holdings Limited. All rights reserved.
     </div>
   </footer>
+<script type="module">
+  const PROJECT_ID   = '3r3o1b2c';
+  const DATASET      = 'production';
+  const API_VERSION  = '2025-01-28'; // update if Sanity recommends a newer one
 
-  <script type="module">
-    const PROJECT_ID   = '3m8xes87';
-    const DATASET      = 'production';
-    const API_VERSION  = '2025-01-28'; // consider updating to a more recent version like 'v2026-02-01'
+  const baseUrl = `https://${PROJECT_ID}.apicdn.sanity.io/v${API_VERSION}/data/query/${DATASET}`;
 
-    const baseUrl = `https://${PROJECT_ID}.apicdn.sanity.io/v${API_VERSION}/data/query/${DATASET}`;
+  // ── Improved slug extraction ──────────────────────────────────────────────
+  const urlParams = new URLSearchParams(window.location.search);
+  let slug = urlParams.get('slug');
 
-    // Get slug from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const slug = urlParams.get('slug');
+  // Fallback: if no ?slug=, try to get from path (e.g. /post/your-slug)
+  if (!slug) {
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    slug = pathParts[pathParts.length - 1]; // last non-empty segment
+  }
 
-    async function getPost() {
-      if (!slug) {
-        return null;
-      }
+  console.log('Current full URL:', window.location.href);
+  console.log('Extracted slug:', slug || '(none found)');
 
-      const query = `
-        *[_type == "post" && slug.current == $slug][0] {
-          title,
-          publishedAt,
-          "imageUrl": mainImage.asset->url,
-          excerpt,
-          body[] {
-            ...,
-            _type == "image" => {
-              "imageUrl": asset->url
-            }
+  async function getPost() {
+    if (!slug) {
+      console.warn('No slug could be extracted from URL or path');
+      return null;
+    }
+
+    console.log('Fetching post for slug:', slug);
+
+    const query = `
+      *[_type == "post" && slug.current == $slug][0] {
+        title,
+        publishedAt,
+        "imageUrl": mainImage.asset->url,
+        excerpt,
+        body[] {
+          ...,
+          _type == "image" => {
+            "imageUrl": asset->url,
+            alt,
+            caption
           }
         }
+      }
+    `;
+
+    const params = new URLSearchParams();
+    params.append('query', query);
+    params.append('$slug', slug);
+
+    const url = `${baseUrl}?${params}`;
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`Sanity fetch failed: ${res.status} ${res.statusText}`);
+      }
+      
+      const json = await res.json();
+      console.log('Sanity response:', json);
+      return json.result || null;
+    } catch (err) {
+      console.error('Error fetching post:', err);
+      return null;
+    }
+  }
+
+  function formatDate(isoString) {
+    if (!isoString) return 'Date not available';
+    return new Date(isoString).toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  function improveImageUrl(url, width = 1200) {
+    if (!url) return '';
+    return `${url}?w=${width}&fit=max&auto=format&fm=webp&q=82`;
+  }
+
+  async function renderPost() {
+    const contentEl = document.getElementById('post-content');
+    const titleEl   = document.getElementById('post-title');
+    const metaEl    = document.getElementById('post-meta');
+
+    if (!slug) {
+      contentEl.innerHTML = `
+        <div class="error">
+          <h2>No article selected</h2>
+          <p>No slug found in the URL. Please use a link from the <a href="blog.html">blog page</a>.</p>
+        </div>
       `;
-
-      const params = new URLSearchParams();
-      params.append('query', query);
-      params.append('$slug', slug);
-
-      const url = `${baseUrl}?${params}`;
-
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Sanity responded with ${res.status}`);
-        
-        const json = await res.json();
-        return json.result || null;
-      } catch (err) {
-        console.error('Failed to load post:', err);
-        return null;
-      }
+      titleEl.textContent = 'No Post Selected';
+      return;
     }
 
-    function formatDate(isoString) {
-      if (!isoString) return 'Date not available';
-      return new Date(isoString).toLocaleDateString('en-GB', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
+    const post = await getPost();
+
+    if (!post) {
+      contentEl.innerHTML = `
+        <div class="error">
+          <h2>Article not found</h2>
+          <p>Slug: <code>${slug}</code><br>
+             This post may not exist, may be unpublished, or the slug doesn't match.</p>
+          <p><a href="blog.html">← Back to all posts</a></p>
+        </div>
+      `;
+      titleEl.textContent = 'Post Not Found';
+      return;
     }
 
-    function improveImageUrl(url, width = 1200) {
-      if (!url) return '';
-      return `${url}?w=${width}&auto=format&fit=crop&q=85`;
+    console.log('Loaded post:', post.title);
+    console.log('Body blocks count:', post.body?.length || 0);
+
+    // ── Update header ────────────────────────────────────────────────────────
+    titleEl.textContent = post.title || 'Untitled Article';
+    document.getElementById('page-title').textContent = `${post.title || 'Article'} - Levene Energy Holdings`;
+    metaEl.innerHTML = post.publishedAt ? formatDate(post.publishedAt) : 'Date not available';
+
+    // ── Build content ────────────────────────────────────────────────────────
+    let html = '';
+
+    // Featured image
+    if (post.imageUrl) {
+      html += `
+        <img 
+          class="featured-image" 
+          src="${improveImageUrl(post.imageUrl, 1200)}" 
+          alt="${post.title || 'Featured image'}"
+          loading="lazy"
+        >
+      `;
     }
 
-    async function renderPost() {
-      const contentEl = document.getElementById('post-content');
-      const titleEl   = document.getElementById('post-title');
-      const metaEl    = document.getElementById('post-meta');
+    // Excerpt (optional)
+    if (post.excerpt) {
+      html += `<p class="post-excerpt"><em>${post.excerpt}</em></p>`;
+    }
 
-      if (!slug) {
-        contentEl.innerHTML = `
-          <div class="error">
-            <h2>No article selected</h2>
-            <p>Please use a valid link from the <a href="blog.html">blog listing</a>.</p>
-          </div>
-        `;
-        titleEl.textContent = 'No Post Selected';
-        return;
-      }
+    // ── Improved Portable Text rendering ─────────────────────────────────────
+    if (post.body && Array.isArray(post.body) && post.body.length > 0) {
+      html += post.body.map(block => {
 
-      const post = await getPost();
+        // Standalone image block
+        if (block._type === 'image' && block.imageUrl) {
+          return `
+            <figure style="margin: 2.5rem 0; text-align: center;">
+              <img 
+                src="${improveImageUrl(block.imageUrl, 900)}" 
+                alt="${block.alt || 'Article image'}" 
+                loading="lazy"
+                style="max-width:100%; height:auto; border-radius:8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"
+              >
+              ${block.caption ? `<figcaption style="margin-top:0.8rem; color:#555; font-size:0.95rem; font-style:italic;">${block.caption}</figcaption>` : ''}
+            </figure>
+          `;
+        }
 
-      if (!post) {
-        contentEl.innerHTML = `
-          <div class="error">
-            <h2>Article not found</h2>
-            <p>This post may have been removed or the link is incorrect.</p>
-            <p><a href="blog.html">← Back to all posts</a></p>
-          </div>
-        `;
-        titleEl.textContent = 'Post Not Found';
-        return;
-      }
+        if (block._type !== 'block') return '';
 
-      // Update title and meta
-      titleEl.textContent = post.title || 'Untitled Article';
-      document.getElementById('page-title').textContent = `${post.title || 'Article'} - Levene Energy Holdings`;
-      metaEl.innerHTML = post.publishedAt ? formatDate(post.publishedAt) : 'Date not available';
+        // Text with marks & annotations
+        const childrenHtml = (block.children || []).map(child => {
+          if (!child.text) return '';
 
-      // Build content
-      let html = '';
+          let t = child.text;
 
-      if (post.imageUrl) {
-        html += `
-          <img 
-            class="featured-image" 
-            src="${improveImageUrl(post.imageUrl)}" 
-            alt="${post.title || 'Featured image'}"
-          >
-        `;
-      }
+          // Marks
+          if (child.marks?.includes('strong'))   t = `<strong>${t}</strong>`;
+          if (child.marks?.includes('em'))       t = `<em>${t}</em>`;
+          if (child.marks?.includes('underline')) t = `<u>${t}</u>`;
+          if (child.marks?.includes('code'))     t = `<code>${t}</code>`;
 
-      if (post.excerpt) {
-        html += `<p class="post-excerpt"><em>${post.excerpt}</em></p>`;
-      }
-
-      // Render body (Portable Text) – basic implementation
-      if (post.body && post.body.length > 0) {
-        html += post.body.map(block => {
-          if (block._type === 'block') {
-            let text = (block.children || []).map(span => {
-              let t = span.text || '';
-              if (span.marks?.includes('strong')) t = `<strong>${t}</strong>`;
-              if (span.marks?.includes('em'))     t = `<em>${t}</em>`;
-              // You can add more mark handling (links, code, underline...) here
-              return t;
-            }).join('');
-
-            switch (block.style) {
-              case 'h1': return `<h1>${text}</h1>`;
-              case 'h2': return `<h2>${text}</h2>`;
-              case 'h3': return `<h3>${text}</h3>`;
-              case 'blockquote': return `<blockquote>${text}</blockquote>`;
-              default: return `<p>${text}</p>`;
+          // Links
+          if (child.marks && block.markDefs) {
+            const link = block.markDefs.find(def => child.marks.includes(def._key));
+            if (link?._type === 'link' && link.href) {
+              t = `<a href="${link.href}" target="_blank" rel="noopener noreferrer" style="color:#0066cc; text-decoration:underline;">${t}</a>`;
             }
           }
-          
-          if (block._type === 'image' && block.imageUrl) {
-            return `<img src="${improveImageUrl(block.imageUrl, 900)}" alt="Image in article" />`;
-          }
 
-          return '';
+          return t;
         }).join('');
-      } else {
-        html += '<p><em>No additional content available.</em></p>';
-      }
 
-      contentEl.innerHTML = html;
+        // Block style
+        const style = block.style || 'normal';
+        if (style === 'normal') return `<p style="margin-bottom:1.6rem;">${childrenHtml}</p>`;
+        if (style.startsWith('h')) return `<${style} style="margin:2.8rem 0 1.2rem;">${childrenHtml}</${style}>`;
+        if (style === 'blockquote') return `<blockquote style="border-left:4px solid #ccc; padding-left:1.2rem; color:#444; font-style:italic; margin:2rem 0;">${childrenHtml}</blockquote>`;
+
+        // Simple list support
+        if (block.listItem) {
+          const tag = block.listItem === 'number' ? 'ol' : 'ul';
+          return `<${tag} style="margin:1.2rem 0 1.2rem 1.8rem;"><li>${childrenHtml}</li></${tag}>`;
+        }
+
+        return `<p>${childrenHtml}</p>`;
+      }).join('');
+    } else {
+      html += '<p style="color:#777; font-style:italic;">This article has no body content yet.</p>';
     }
 
-    renderPost();
-  </script>
+    contentEl.innerHTML = html;
+  }
+
+  renderPost();
+</script>
 
 </body>
 </html>
