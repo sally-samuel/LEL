@@ -129,53 +129,61 @@
   </footer>
 
   <script type="module">
-    const PROJECT_ID   = '3r3o1b2c';
-    const DATASET      = 'production';
-    const API_VERSION  = '2025-01-28'; // consider updating to a more recent version like 'v2026-02-01'
+  const PROJECT_ID   = '3r3o1b2c';
+  const DATASET      = 'production';
+  const API_VERSION  = '2025-01-28';
 
-    const baseUrl = `https://${PROJECT_ID}.apicdn.sanity.io/v${API_VERSION}/data/query/${DATASET}`;
+  // Fixed: removed 'v' prefix
+  const baseUrl = `https://${PROJECT_ID}.apicdn.sanity.io/${API_VERSION}/data/query/${DATASET}`;
 
-    // Get slug from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const slug = urlParams.get('slug');
+  const urlParams = new URLSearchParams(window.location.search);
+  const slug = urlParams.get('slug');
 
-    async function getPost() {
-      if (!slug) {
-        return null;
-      }
+  async function getPost() {
+    if (!slug) {
+      return null;
+    }
 
-      const query = `
-        *[_type == "post" && slug.current == $slug][0] {
-          title,
-          publishedAt,
-          "imageUrl": mainImage.asset->url,
-          excerpt,
-          body[] {
-            ...,
-            _type == "image" => {
-              "imageUrl": asset->url
-            }
+    const query = `
+      *[_type == "post" && slug.current == $slug][0] {
+        title,
+        publishedAt,
+        "imageUrl": mainImage.asset->url,
+        excerpt,
+        body[] {
+          ...,
+          _type == "image" => {
+            "imageUrl": asset->url
           }
         }
-      `;
-
-      const params = new URLSearchParams();
-      params.append('query', query);
-      params.append('$slug', slug);
-
-      const url = `${baseUrl}?${params}`;
-
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Sanity responded with ${res.status}`);
-        
-        const json = await res.json();
-        return json.result || null;
-      } catch (err) {
-        console.error('Failed to load post:', err);
-        return null;
       }
+    `;
+
+    const params = new URLSearchParams({
+      query: query,
+      '$slug': slug  // Fixed: proper parameter name
+    });
+
+    const url = `${baseUrl}?${params.toString()}`;
+
+    console.log('Fetching from:', url); // Debug log
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('Sanity API Error:', errorText);
+        throw new Error(`Sanity responded with ${res.status}`);
+      }
+      
+      const json = await res.json();
+      console.log('Sanity response:', json); // Debug log
+      return json.result || null;
+    } catch (err) {
+      console.error('Failed to load post:', err);
+      return null;
     }
+  }
 
     function formatDate(isoString) {
       if (!isoString) return 'Date not available';
