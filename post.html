@@ -128,112 +128,46 @@
     </div>
   </footer>
 
-  <script type="module">
+ <script type="module">
   const PROJECT_ID   = '3r3o1b2c';
   const DATASET      = 'production';
   const API_VERSION  = '2025-01-28';
 
   const baseUrl = `https://${PROJECT_ID}.apicdn.sanity.io/v${API_VERSION}/data/query/${DATASET}`;
 
-  // Slug with basic cleaning
   const urlParams = new URLSearchParams(location.search);
   let slug = urlParams.get('slug')?.trim().replace(/[\\\/]+$/, '') || '';
 
+  console.log('Slug from URL:', slug);
+
   if (!slug) {
     document.getElementById('post-content').innerHTML = '<div class="error">No slug in URL</div>';
-    return;
-  }
+  } else {
+    document.getElementById('post-title').textContent = 'Loading...';
+    document.getElementById('post-content').innerHTML = '<div>Loading full post...</div>';
 
-  console.log('Slug:', slug);
-
-  async function getPost() {
-    const query = `*[_type == "post" && slug.current == $slug][0] {
-      title, publishedAt,
-      "imageUrl": mainImage.asset->url,
-      excerpt,
-      body[] {
-        ...,
-        _type == "image" => { "imageUrl": asset->url, alt, caption }
-      }
-    }`;
-
+    // minimal fetch test
+    const query = `*[_type == "post" && slug.current == $slug][0]{ title }`;
     const params = new URLSearchParams({ query, $slug: slug });
-    const url = `${baseUrl}?${params}`;
-
-    console.log('Fetching:', url);
-
-    try {
-      const res = await fetch(url);
-      if (!res.ok) {
-        const errText = await res.text();
-        console.error('Sanity error:', res.status, errText);
-        throw new Error(res.status);
-      }
-      const { result } = await res.json();
-      console.log('Result:', result);
-      return result || null;
-    } catch (err) {
-      console.error('Fetch failed:', err);
-      return null;
-    }
-  }
-
-  async function renderPost() {
-    const content = document.getElementById('post-content');
-    const titleEl = document.getElementById('post-title');
-    const metaEl  = document.getElementById('post-meta');
-
-    const post = await getPost();
-
-    if (!post) {
-      content.innerHTML = `<div class="error">
-        Article not found<br>
-        Slug: <code>${slug}</code><br>
-        Check Sanity: slug.current exact match? Published in production?
-      </div>`;
-      titleEl.textContent = 'Not Found';
-      return;
-    }
-
-    titleEl.textContent = post.title || 'Untitled';
-    document.title = `${post.title} - Levene Energy Holdings`;
-    metaEl.textContent = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-GB', { year:'numeric', month:'long', day:'numeric' }) : '';
-
-    let html = post.imageUrl
-      ? `<img class="featured-image" src="${post.imageUrl}?w=1200&auto=format&fit=crop&q=80" alt="${post.title || 'Featured'}">`
-      : '';
-
-    if (post.excerpt) html += `<p class="post-excerpt"><em>${post.excerpt}</em></p>`;
-
-    if (post.body?.length) {
-      html += post.body.map(block => {
-        if (block._type === 'image' && block.imageUrl) {
-          return `<figure><img src="${block.imageUrl}?w=900&auto=format&fit=crop&q=80" alt="${block.alt || 'Image'}" loading="lazy">${block.caption ? `<figcaption>${block.caption}</figcaption>` : ''}</figure>`;
+    fetch(`${baseUrl}?${params}`)
+      .then(res => {
+        if (!res.ok) throw new Error(res.status);
+        return res.json();
+      })
+      .then(data => {
+        const post = data.result;
+        if (post) {
+          document.getElementById('post-title').textContent = post.title || 'Found!';
+          document.getElementById('post-content').innerHTML = '<p>Post exists — title loaded.</p>';
+        } else {
+          document.getElementById('post-content').innerHTML = `<div class="error">No post for slug: ${slug}</div>`;
         }
-        if (block._type !== 'block') return '';
-
-        const text = (block.children || []).map(c => {
-          let t = c.text || '';
-          if (c.marks?.includes('strong')) t = `<strong>${t}</strong>`;
-          if (c.marks?.includes('em'))     t = `<em>${t}</em>`;
-          const link = block.markDefs?.find(d => c.marks?.includes(d._key));
-          return link?.href ? `<a href="${link.href}" target="_blank">${t}</a>` : t;
-        }).join('');
-
-        const s = block.style || 'normal';
-        if (s.startsWith('h')) return `<${s}>${text}</${s}>`;
-        if (s === 'blockquote') return `<blockquote>${text}</blockquote>`;
-        if (block.listItem) return `<${block.listItem === 'number' ? 'ol' : 'ul'}><li>${text}</li></${block.listItem === 'number' ? 'ol' : 'ul'}>`;
-        return `<p>${text}</p>`;
-      }).join('');
-    } else {
-      html += '<p><em>No body content</em></p>';
-    }
-
-    content.innerHTML = html;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('post-content').innerHTML = '<div class="error">Fetch failed — check console</div>';
+      });
   }
-
-  renderPost();
 </script>
 </body>
 </html>
