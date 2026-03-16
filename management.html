@@ -34,19 +34,21 @@
       gap: 2rem;
     }
     .team-card {
-      background: var(--white);
       border-radius: 8px;
       overflow: hidden;
       box-shadow: var(--shadow-card);
       cursor: pointer;
       transition: transform .25s var(--ease), box-shadow .25s var(--ease);
     }
-    .team-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-deep); }
+    .team-card:hover { transform: translateY(-6px);
+       box-shadow: var(--shadow-deep); 
+       }
 
     .team-photo {
       aspect-ratio: 3/4;
       overflow: hidden;
-      background: var(--smoke);
+            background: #174caa;
+
       position: relative;
     }
     .team-photo img {
@@ -199,7 +201,6 @@
     .catch(err => console.error('Failed to load footer:', err));
 </script>
 
-<!-- Mobile Nav (only once – preferably move to header.html later) -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.getElementById('hamburger');
