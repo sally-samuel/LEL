@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Centre — Levene Energy Holdings Limited</title>
+  <meta name="description" content="Explore Levene Energy Holdings' media centre — gallery, events, press releases and newsletters."/>
+  <meta property="og:title" content="Media Centre — Levene Energy Holdings"/>
+  <meta property="og:description" content="Gallery, events, press releases, newsletters and latest updates from Levene Energy."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="./image/levenelogo.png"/>
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* Lightbox */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: #174caa;
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s;
+    }
+    .lightbox-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .lightbox-caption {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 1.5rem;
+      right: 2rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: white; }
+
+    /* Tabs & Panels */
+    .media-tabs { padding: 3rem 5%; background: var(--off-white); }
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      justify-content: center;
+    }
+    .tab-btn {
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      border: 2px solid var(--navy);
+      border-radius: 30px;
+      background: white;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .tab-btn.active,
+    .tab-btn:hover {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .empty-state {
+      text-align: center;
+      padding: 5rem 2rem;
+      color: var(--muted);
+    }
+    .empty-state i { font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.6; }
+
+    /* Event cards */
+    .event-card {
+      display: flex;
+      gap: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 1.25rem;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .event-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-deep);
+    }
+
+    /* Press / Newsletter items */
+    .press-item {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: white;
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: transform 0.25s;
+    }
+    .press-item:hover { transform: translateY(-3px); }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div id="header-placeholder"></div>
+
+<script>
+  fetch('header.html')
+    .then(r => {
+      if (!r.ok) throw new Error('Header not found');
+      return r.text();
+    })
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+    })
+    .catch(err => console.error('Failed to load header:', err));
+</script>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-label">Media Centre</div>
+    <h1>MEDIA</h1>
+    <p>Stay up to date with Levene Energy Holdings — images from our operations, upcoming events, and official communications.</p>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span>/</span><span>Media</span>
+    </div>
+  </div>
+</section>
+
+<!-- Media Tabs -->
+<section class="media-tabs">
+  <div class="tab-bar" role="tablist">
+    <button class="tab-btn active" data-tab="gallery" role="tab" aria-selected="true" aria-controls="panel-gallery">
+      <i class="fas fa-images"></i> Gallery
+    </button>
+    <button class="tab-btn" data-tab="events" role="tab" aria-selected="false" aria-controls="panel-events">
+      <i class="fas fa-calendar-alt"></i> Events
+    </button>
+    <button class="tab-btn" data-tab="press" role="tab" aria-selected="false" aria-controls="panel-press">
+      <i class="fas fa-newspaper"></i> Press Releases
+    </button>
+    <button class="tab-btn" data-tab="newsletters" role="tab" aria-selected="false" aria-controls="panel-newsletters">
+      <i class="fas fa-envelope-open-text"></i> Newsletters
+    </button>
+  </div>
+
+  <!-- Gallery Tab -->
+  <div class="tab-panel active" id="panel-gallery" role="tabpanel">
+    <div class="tab-panel-inner">
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="empty-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading gallery…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Events Tab -->
+  <div class="tab-panel" id="panel-events" role="tabpanel">
+    <div class="tab-panel-inner">
+      <div style="display:flex; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap; justify-content:center;">
+        <button class="btn btn--primary" id="filter-all" onclick="filterEvents('all')">All Events</button>
+        <button class="btn btn--outline-dark" id="filter-upcoming" onclick="filterEvents('upcoming')">Upcoming</button>
+        <button class="btn btn--outline-dark" id="filter-past" onclick="filterEvents('past')">Past</button>
+      </div>
+      <div id="events-list">
+        <div class="empty-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading events…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Press Releases Tab -->
+  <div class="tab-panel" id="panel-press" role="tabpanel">
+    <div class="tab-panel-inner">
+      <div id="press-list">
+        <div class="empty-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading press releases…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletters Tab -->
+  <div class="tab-panel" id="panel-newsletters" role="tabpanel">
+    <div class="tab-panel-inner">
+      <div id="newsletter-list">
+        <div class="empty-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading newsletters…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(r => r.text())
+    .then(html => document.getElementById('footer-placeholder').innerHTML = html)
+    .catch(err => console.error('Failed to load footer:', err));
+</script>
+
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close lightbox"><i class="fas fa-times"></i></button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<!-- Scripts -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Mobile nav
+  const hamburger = document.getElementById('hamburger');
+  const navList   = document.getElementById('nav-list');
+  const navClose  = document.getElementById('nav-close');
+
+  if (hamburger && navList) {
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      navList.classList.add('open');
+    });
+  }
+
+  if (navClose) {
+    navClose.addEventListener('click', () => {
+      navList.classList.remove('open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+    });
+  }
+
+  document.querySelectorAll('.nav-list .dropdown > a').forEach(link => {
+    link.addEventListener('click', e => {
+      if (window.innerWidth > 768) return;
+      // Allow hash links to work (don't prevent default for # links)
+      if (link.getAttribute('href').startsWith('#')) {
+        return; // Let browser handle hash navigation
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      const dropdown = link.closest('.dropdown');
+      const isOpen = dropdown.classList.contains('mob-open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+      if (!isOpen) dropdown.classList.add('mob-open');
+    });
+  });
+
+  // Tab switching logic
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      const panelId = 'panel-' + btn.dataset.tab;
+      const panel = document.getElementById(panelId);
+      if (panel) {
+        panel.classList.add('active');
+        // Smooth scroll to tabs section
+        document.querySelector('.media-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      history.replaceState(null, '', '#' + btn.dataset.tab);
+    });
+  });
+
+  // Activate tab based on URL hash (from dropdown or direct link)
+  function activateTabFromHash() {
+    const hash = location.hash.replace('#', '');
+    if (hash && ['gallery', 'events', 'press', 'newsletters'].includes(hash)) {
+      const btn = document.querySelector(`.tab-btn[data-tab="${hash}"]`);
+      if (btn && !btn.classList.contains('active')) {
+        btn.click();
+      }
+    }
+  }
+
+  // Run on load
+  activateTabFromHash();
+
+  // Run on hash change (browser back/forward)
+  window.addEventListener('hashchange', activateTabFromHash);
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCap = document.getElementById('lightbox-caption');
+
+  document.getElementById('lightbox-close').addEventListener('click', () => lb.classList.remove('open'));
+  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+
+  window.openLightbox = function(src, alt, caption) {
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    lbCap.textContent = caption || '';
+    lb.classList.add('open');
+  };
+});
+
+// ── Sanity loading scripts (unchanged) ──
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const fmt = d => d ? new Date(d).toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'}) : '';
+
+const BASE = 'https://ilajnehi.apicdn.sanity.io/v2025-06-01/data/query/production';
+async function sq(q) {
+  try {
+    const r = await fetch(`${BASE}?query=${encodeURIComponent(q)}`);
+    if (!r.ok) return [];
+    const j = await r.json();
+    return j.result || [];
+  } catch {
+    return [];
+  }
+}
+
+// Gallery
+;(async () => {
+  const items = await sq(
+    `*[_type=="mediaItem"&&type=="photo"]|order(publishedAt desc)[0...24]{title,"url":image.asset->url,caption}`
+  );
+  const grid = document.getElementById('gallery-grid');
+
+  if (!items.length) {
+    grid.innerHTML = `<div class="empty-state"><i class="fas fa-images"></i><p>No photos yet. Add them in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(it => {
+    const thumb = `${it.url}?w=600&h=450&fit=crop&q=80`;
+    const full  = `${it.url}?w=1400&auto=format`;
+    return `
+      <div class="gallery-item" onclick="openLightbox('${full}','${esc(it.title)}','${esc(it.caption||'')}')">
+        <img src="${thumb}" alt="${esc(it.title)}" loading="lazy"/>
+        <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+      </div>`;
+  }).join('');
+})();
+
+      // EVENTS
+      let allEvents = []
+      ;(async () => {
+        allEvents = await sq(
+          `*[_type=="event"]|order(eventDate desc){"slug":slug.current,_id,title,excerpt,eventDate,location,status,registrationUrl,"img":coverImage.asset->url}`,
+        )
+        renderEvents(allEvents)
+      })()
+
+      function renderEvents(evts) {
+        const el = document.getElementById('events-list')
+        if (!evts.length) {
+          el.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-times"></i><p>No events found. Add events in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
+          return
+        }
+        el.innerHTML = evts
+          .map((ev) => {
+            const d = ev.eventDate ? new Date(ev.eventDate) : null
+            const href = `event.html?slug=${esc(ev.slug || ev._id)}`
+            return `
+    <div class="event-card" onclick="location.href='${href}'">
+      <div class="event-date-block">
+        <div class="event-date-day">${d ? d.getDate() : '--'}</div>
+        <div class="event-date-month">${d ? d.toLocaleString('en', {month: 'short'}) : '--'}</div>
+        <div class="event-date-year">${d ? d.getFullYear() : ''}</div>
+      </div>
+      <div class="event-info" style="flex:1">
+        <div style="display:flex;gap:.6rem;margin-bottom:.5rem;flex-wrap:wrap">
+          <span style="font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .75rem;border-radius:20px;background:${ev.status === 'upcoming' ? 'var(--green)' : 'var(--muted)'};color:white">${esc(ev.status || 'event')}</span>
+        </div>
+        <h3 style="font-family:var(--font-display);font-size:1.25rem;color:var(--navy);margin-bottom:.4rem">${esc(ev.title)}</h3>
+        ${ev.excerpt ? `<p style="color:var(--muted);font-size:.9rem;line-height:1.7">${esc(ev.excerpt)}</p>` : ''}
+        ${ev.location ? `<div class="event-location"><i class="fas fa-map-marker-alt"></i>${esc(ev.location)}</div>` : ''}
+        <a href="${href}" class="event-card-link" onclick="event.stopPropagation()">View details <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>`
+          })
+          .join('')
+      }
+
+      function filterEvents(status) {
+        document
+          .querySelectorAll('#panel-events .btn')
+          .forEach((b) => (b.className = 'btn btn--outline-dark'))
+        document.getElementById(`filter-${status}`).className = 'btn btn--primary'
+        renderEvents(status === 'all' ? allEvents : allEvents.filter((e) => e.status === status))
+      }
+
+      // PRESS RELEASES
+      ;(async () => {
+        const items = await sq(
+          `*[_type=="mediaItem"&&type=="press_release"]|order(publishedAt desc){title,caption,publishedAt,"fileUrl":file.asset->url}`,
+        )
+        const el = document.getElementById('press-list')
+        if (!items.length) {
+          el.innerHTML = `<div class="empty-state"><i class="fas fa-file-alt"></i><p>No press releases yet. Add them in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
+          return
+        }
+        el.innerHTML = items
+          .map(
+            (it) => `
+  <div class="press-item" ${it.fileUrl ? `onclick="window.open('${esc(it.fileUrl)}','_blank')"` : ''}> 
+    <div style="flex-shrink:0;font-size:1.6rem;color:var(--navy)"><i class="fas fa-file-pdf"></i></div>
+    <div style="flex:1">
+      <div class="press-tag">Press Release</div>
+      <div class="press-title">${esc(it.title)}</div>
+      ${it.caption ? `<p style="font-size:.85rem;color:var(--muted);margin-top:.3rem">${esc(it.caption)}</p>` : ''}
+    </div>
+    <div class="press-date">${fmt(it.publishedAt)}</div>
+    ${it.fileUrl ? `<a href="${esc(it.fileUrl)}" target="_blank" onclick="event.stopPropagation()" class="btn btn--outline-dark" style="padding:.5rem 1rem;font-size:.75rem;flex-shrink:0"><i class="fas fa-download"></i> PDF</a>` : ''}
+  </div>`,
+          )
+          .join('')
+      })()
+
+      // NEWSLETTERS
+      ;(async () => {
+        const items = await sq(
+          `*[_type=="mediaItem"&&type=="newsletter"]|order(publishedAt desc){title,caption,publishedAt,"fileUrl":file.asset->url}`,
+        )
+        const el = document.getElementById('newsletter-list')
+        if (!items.length) {
+          el.innerHTML = `<div class="empty-state"><i class="fas fa-envelope-open"></i><p>No newsletters yet. Add them in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
+          return
+        }
+        el.innerHTML = items
+          .map(
+            (it) => `
+  <div class="press-item" ${it.fileUrl ? `onclick="window.open('${esc(it.fileUrl)}','_blank')"` : ''}> 
+    <div style="flex-shrink:0;font-size:1.6rem;color:var(--green)"><i class="fas fa-envelope-open-text"></i></div>
+    <div style="flex:1">
+      <div class="press-tag" style="color:var(--green)">Newsletter</div>
+      <div class="press-title">${esc(it.title)}</div>
+      ${it.caption ? `<p style="font-size:.85rem;color:var(--muted);margin-top:.3rem">${esc(it.caption)}</p>` : ''}
+    </div>
+    <div class="press-date">${fmt(it.publishedAt)}</div>
+    ${it.fileUrl ? `<a href="${esc(it.fileUrl)}" target="_blank" onclick="event.stopPropagation()" class="btn btn--outline-dark" style="padding:.5rem 1rem;font-size:.75rem;flex-shrink:0"><i class="fas fa-download"></i> PDF</a>` : ''}
+  </div>`,
+          )
+          .join('')
+      })()
+    </script>
+  </body>
+</html>

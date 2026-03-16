@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title id="page-title">Blog Post — Levene Energy Holdings</title>
+  <meta name="description" id="page-desc" content="Read the latest insights from Levene Energy Holdings."/>
+
+  <link rel="stylesheet" href="./css/post.css"/>
+  <link rel="stylesheet" href="./css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- Header -->
+<div id="header-placeholder"></div>
+
+<script>
+  fetch('header.html')
+    .then(r => {
+      if (!r.ok) throw new Error('Header not found');
+      return r.text();
+    })
+    .then(html => document.getElementById('header-placeholder').innerHTML = html)
+    .catch(err => console.error('Failed to load header:', err));
+</script>
+
+<!-- Article Hero -->
+<section class="post-header">
+  <div class="post-header-inner">
+    <h1 id="post-title">Loading article...</h1>
+    <div class="post-meta" id="post-meta"></div>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span>/</span>
+      <a href="blog.html">Blog</a><span>/</span>
+      <span id="post-breadcrumb-title">Article</span>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<main class="post-body" id="post-content">
+  <div class="loading">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Loading article content...</p>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(r => r.text())
+    .then(html => document.getElementById('footer-placeholder').innerHTML = html)
+    .catch(err => console.error('Failed to load footer:', err));
+</script>
+
+<!-- Mobile Nav -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.getElementById('hamburger');
+  const navList   = document.getElementById('nav-list');
+  const navClose  = document.getElementById('nav-close');
+
+  if (hamburger && navList) {
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      navList.classList.add('open');
+    });
+  }
+
+  if (navClose) {
+    navClose.addEventListener('click', () => {
+      navList.classList.remove('open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+    });
+  }
+
+  document.querySelectorAll('.nav-list .dropdown > a').forEach(link => {
+    link.addEventListener('click', e => {
+      if (window.innerWidth > 768) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const dropdown = link.closest('.dropdown');
+      const isOpen = dropdown.classList.contains('mob-open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+      if (!isOpen) dropdown.classList.add('mob-open');
+    });
+  });
+});
+</script>
+
+<!-- Article Loading & Rendering -->
+<script>
+// ── Helpers ──
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function fmt(d) {
+  return d ? new Date(d).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+}
+
+function improveImageUrl(url, width = 900) {
+  if (!url) return '';
+  return `${url}?w=${width}&auto=format&fit=crop&q=80`;
+}
+
+// Simple Portable Text → HTML renderer (expand as needed)
+function ptToHtml(blocks) {
+  if (!blocks?.length) return '<p>No content available.</p>';
+  return blocks
+    .map(block => {
+      if (block._type === 'image' && block.asset?.url) {
+        const src = improveImageUrl(block.asset.url, 900);
+        return `
+          <figure>
+            <img src="${src}" alt="${esc(block.alt || 'Image')}" loading="lazy"/>
+            ${block.caption ? `<figcaption>${esc(block.caption)}</figcaption>` : ''}
+          </figure>`;
+      }
+      if (block._type !== 'block') return '';
+
+      const text = (block.children || [])
+        .map(c => {
+          let t = esc(c.text || '');
+          if (c.marks?.includes('strong')) t = `<strong>${t}</strong>`;
+          if (c.marks?.includes('em')) t = `<em>${t}</em>`;
+          const linkDef = block.markDefs?.find(d => c.marks?.includes(d._key));
+          return linkDef?.href ? `<a href="${esc(linkDef.href)}" target="_blank">${t}</a>` : t;
+        })
+        .join('');
+
+      const style = block.style || 'normal';
+      if (style.startsWith('h')) return `<${style}>${text}</${style}>`;
+      if (style === 'blockquote') return `<blockquote>${text}</blockquote>`;
+      return `<p>${text}</p>`;
+    })
+    .join('');
+}
+
+async function renderPost() {
+  const slug = new URLSearchParams(location.search).get('slug')?.trim();
+  if (!slug) {
+    document.getElementById('post-content').innerHTML = `
+      <div style="text-align:center;padding:6rem 2rem;color:var(--muted);">
+        <i class="fas fa-exclamation-circle" style="font-size:3rem;margin-bottom:1rem;"></i>
+        <h2>No article selected</h2>
+        <p>Please choose a post from the <a href="blog.html">blog</a>.</p>
+      </div>`;
+    document.getElementById('post-title').textContent = 'Not Found';
+    return;
+  }
+
+  const BASE = 'https://ilajnehi.apicdn.sanity.io/v2025-06-01/data/query/production';
+  const q = `*[_type=="post" && slug.current=="${slug}"][0]{
+    title,
+    excerpt,
+    publishedAt,
+    "imageUrl": mainImage.asset->url,
+    content
+  }`;
+
+  try {
+    const res = await fetch(`${BASE}?query=${encodeURIComponent(q)}`);
+    if (!res.ok) throw new Error('Sanity fetch failed');
+    const data = await res.json();
+    const post = data.result;
+
+    if (!post) throw new Error('Post not found');
+
+    document.getElementById('page-title').textContent = `${post.title} — Levene Energy Holdings`;
+    document.getElementById('page-desc').content = post.excerpt || post.title;
+    document.getElementById('post-title').textContent = post.title || 'Untitled';
+    document.getElementById('post-meta').textContent = post.publishedAt ? fmt(post.publishedAt) : '';
+
+    let html = post.imageUrl
+      ? `<img class="featured-image" src="${improveImageUrl(post.imageUrl, 1200)}" alt="${esc(post.title)}" loading="lazy"/>`
+      : '';
+
+    if (post.excerpt) {
+      html += `<p class="post-excerpt">${esc(post.excerpt)}</p>`;
+    }
+
+    if (post.content?.length) {
+      html += ptToHtml(post.content);
+    } else {
+      html += '<p style="color:var(--muted);font-style:italic;">No content available for this article.</p>';
+    }
+
+    document.getElementById('post-content').innerHTML = html;
+  } catch (err) {
+    console.error('Post load error:', err);
+    document.getElementById('post-content').innerHTML = `
+      <div style="text-align:center;padding:6rem 2rem;color:var(--muted);">
+        <i class="fas fa-exclamation-triangle" style="font-size:3rem;margin-bottom:1rem;"></i>
+        <h2>Article Not Found</h2>
+        <p>This post may have been removed or is not available.</p>
+        <a href="blog.html" class="btn btn--primary" style="margin-top:1.5rem;">Back to Blog</a>
+      </div>`;
+    document.getElementById('post-title').textContent = 'Not Found';
+  }
+}
+
+renderPost();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Event — Levene Energy Holdings</title>
+  <meta id="page-desc" name="description" content="Event details — Levene Energy Holdings Limited." />
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .event-hero {
+      position: relative;
+      min-height: 480px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .event-hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .event-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(4,24,68,0.95) 0%, rgba(4,24,68,0.5) 100%);
+    }
+    .event-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 5% 5rem;
+      max-width: 860px;
+    }
+    .event-status-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      margin-bottom: 1.25rem;
+    }
+    .event-hero-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 600;
+      color: white;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+    .event-hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .event-hero-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .event-hero-meta i { color: var(--gold); }
+
+    .event-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 5% 7rem;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      transition: color 0.3s;
+    }
+    .back-link:hover { color: var(--navy); }
+
+    .event-desc p {
+      color: var(--muted);
+      line-height: 1.9;
+      font-size: 1.05rem;
+      margin-bottom: 1.5rem;
+    }
+    .event-desc h2, .event-desc h3 {
+      font-family: var(--font-display);
+      color: var(--navy);
+      margin: 2.5rem 0 1rem;
+    }
+    .event-desc ul {
+      list-style: disc;
+      padding-left: 1.6rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .event-desc ul li { margin-bottom: 0.5rem; line-height: 1.7; }
+
+    .event-info-card {
+      background: var(--off-white);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2.5rem 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .event-info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .event-info-icon {
+      width: 44px;
+      height: 44px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .event-info-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .event-info-value {
+      font-size: 1rem;
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .event-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .event-loading {
+      text-align: center;
+      padding: 8rem 5%;
+      color: var(--muted);
+    }
+    .event-loading i {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div id="header-placeholder"></div>
+
+<script>
+  fetch('header.html')
+    .then(r => {
+      if (!r.ok) throw new Error('Header not found');
+      return r.text();
+    })
+    .then(html => document.getElementById('header-placeholder').innerHTML = html)
+    .catch(err => console.error('Failed to load header:', err));
+</script>
+
+<!-- Event Hero + Content -->
+<div id="event-hero-wrap">
+  <div class="event-loading">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Loading event details...</p>
+  </div>
+</div>
+
+<div id="event-body-wrap"></div>
+<div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(r => r.text())
+    .then(html => document.getElementById('footer-placeholder').innerHTML = html)
+    .catch(err => console.error('Failed to load footer:', err));
+</script>
+
+<!-- Mobile Nav -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.getElementById('hamburger');
+  const navList   = document.getElementById('nav-list');
+  const navClose  = document.getElementById('nav-close');
+
+  if (hamburger && navList) {
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      navList.classList.add('open');
+    });
+  }
+
+  if (navClose) {
+    navClose.addEventListener('click', () => {
+      navList.classList.remove('open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+    });
+  }
+
+  document.querySelectorAll('.nav-list .dropdown > a').forEach(link => {
+    link.addEventListener('click', e => {
+      if (window.innerWidth > 768) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const dropdown = link.closest('.dropdown');
+      const isOpen = dropdown.classList.contains('mob-open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+      if (!isOpen) dropdown.classList.add('mob-open');
+    });
+  });
+});
+</script>
+
+<!-- Event Detail Logic -->
+<script>
+// ── Helpers ──
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"');
+}
+
+function fmt(d, opts) {
+  return d
+    ? new Date(d).toLocaleDateString('en-GB', opts || { year: 'numeric', month: 'long', day: 'numeric' })
+    : '';
+}
+
+function ptToHtml(blocks) {
+  if (!blocks?.length) return '<p>No description available.</p>';
+  return blocks
+    .map(block => {
+      if (block._type !== 'block') return '';
+      const text = (block.children || [])
+        .map(child => {
+          let t = esc(child.text || '');
+          if (child.marks?.includes('strong')) t = `<strong>${t}</strong>`;
+          if (child.marks?.includes('em')) t = `<em>${t}</em>`;
+          return t;
+        })
+        .join('');
+      const style = block.style || 'normal';
+      if (['h2','h3','h4'].includes(style)) return `<${style}>${text}</${style}>`;
+      if (style === 'blockquote') return `<blockquote>${text}</blockquote>`;
+      return `<p>${text}</p>`;
+    })
+    .join('');
+}
+
+function paint(ev) {
+  document.title = `${ev.title} — Levene Energy Holdings`;
+  document.getElementById('page-desc').content = ev.excerpt || ev.title;
+
+  const imgQ = ev.imgUrl ? `${ev.imgUrl}?w=1400&auto=format&q=80` : '';
+  const isUpcoming = ev.status === 'upcoming';
+
+  document.getElementById('event-hero-wrap').innerHTML = `
+  <section class="event-hero">
+    ${imgQ ? `<img class="event-hero-bg" src="${imgQ}" alt="${esc(ev.title)}"/>` : ''}
+    <div class="event-hero-overlay"></div>
+    <div class="event-hero-content">
+      <span class="event-status-badge" style="background:${isUpcoming ? 'var(--green)' : 'var(--muted)'}; color:white;">
+        ${esc(ev.status || 'Event')}
+      </span>
+      <h1>${esc(ev.title)}</h1>
+      <div class="event-hero-meta">
+        ${ev.eventDate ? `<span><i class="fas fa-calendar"></i> ${fmt(ev.eventDate)}</span>` : ''}
+        ${ev.location ? `<span><i class="fas fa-map-marker-alt"></i> ${esc(ev.location)}</span>` : ''}
+      </div>
+      <div class="breadcrumb" style="margin-top:2.5rem;">
+        <a href="index.html">Home</a><span>/</span>
+        <a href="media.html#events">Events</a><span>/</span>
+        <span class="current">${esc(ev.title)}</span>
+      </div>
+    </div>
+  </section>`;
+
+  const bodyHtml = ev.description ? ptToHtml(ev.description) : ev.excerpt ? `<p>${esc(ev.excerpt)}</p>` : '<p>More details coming soon.</p>';
+
+  document.getElementById('event-body-wrap').innerHTML = `
+  <div class="event-body">
+    <a href="media.html#events" class="back-link"><i class="fas fa-arrow-left"></i> Back to All Events</a>
+
+    <div class="event-info-card">
+      ${ev.eventDate ? `
+        <div class="event-info-row">
+          <div class="event-info-icon"><i class="fas fa-calendar-day"></i></div>
+          <div>
+            <div class="event-info-label">Date</div>
+            <div class="event-info-value">${fmt(ev.eventDate)}</div>
+          </div>
+        </div>` : ''}
+      ${ev.endDate ? `
+        <div class="event-info-row">
+          <div class="event-info-icon"><i class="fas fa-calendar-check"></i></div>
+          <div>
+            <div class="event-info-label">End Date</div>
+            <div class="event-info-value">${fmt(ev.endDate)}</div>
+          </div>
+        </div>` : ''}
+      ${ev.location ? `
+        <div class="event-info-row">
+          <div class="event-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="event-info-label">Location</div>
+            <div class="event-info-value">${esc(ev.location)}</div>
+          </div>
+        </div>` : ''}
+      <div class="event-info-row">
+        <div class="event-info-icon"><i class="fas fa-tag"></i></div>
+        <div>
+          <div class="event-info-label">Status</div>
+          <div class="event-info-value" style="color:${isUpcoming ? 'var(--green)' : 'var(--muted)'}; text-transform:capitalize;">
+            ${esc(ev.status || '—')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="event-desc rich-text">${bodyHtml}</div>
+
+    <div class="event-actions">
+      ${ev.registrationUrl && isUpcoming ? `
+        <a href="${esc(ev.registrationUrl)}" target="_blank" rel="noopener" class="btn btn--green">
+          Register Now <i class="fas fa-external-link-alt"></i>
+        </a>` : ''}
+      <a href="contact.html" class="btn btn--primary">Contact Us <i class="fas fa-arrow-right"></i></a>
+      <a href="media.html#events" class="btn btn--outline-dark">All Events</a>
+    </div>
+  </div>`;
+}
+
+(async () => {
+  const slug = new URLSearchParams(location.search).get('slug')?.trim();
+  if (!slug) {
+    location.href = 'media.html#events';
+    return;
+  }
+
+  const BASE = 'https://ilajnehi.apicdn.sanity.io/v2025-06-01/data/query/production';
+  const q = `*[_type=="event" && (slug.current=="${slug}" || _id=="${slug}")][0]{
+    title,
+    excerpt,
+    eventDate,
+    endDate,
+    location,
+    status,
+    registrationUrl,
+    description,
+    "imgUrl": coverImage.asset->url
+  }`;
+
+  try {
+    const res = await fetch(`${BASE}?query=${encodeURIComponent(q)}`);
+    if (!res.ok) throw new Error('Sanity fetch failed');
+    const data = await res.json();
+
+    if (data.result) {
+      paint(data.result);
+      return;
+    }
+  } catch (err) {
+    console.error('Event fetch error:', err);
+  }
+
+  // Fallback UI
+  document.getElementById('event-hero-wrap').innerHTML = '';
+  document.getElementById('event-body-wrap').innerHTML = `
+    <div class="event-loading">
+      <i class="fas fa-calendar-times" style="font-size:3.5rem;color:var(--muted);"></i>
+      <h2 style="margin:1.5rem 0;color:var(--navy);">Event Not Found</h2>
+      <p style="margin-bottom:2rem;">The requested event could not be found or may have been removed.</p>
+      <a href="media.html#events" class="btn btn--primary">View All Events</a>
+    </div>`;
+})();
+</script>
+
+</body>
+</html>

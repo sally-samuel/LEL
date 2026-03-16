@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Levene Energy Holdings Limited — Innovative Energy Solutions</title>
+  <meta name="description" content="Levene Energy Holdings Limited is an innovative solutions provider to the global energy sector, operating across upstream, midstream and downstream value chains."/>
+  <meta property="og:title" content="Levene Energy Holdings Limited"/>
+  <meta property="og:description" content="Innovative solutions across the energy value chain."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="./image/levenelogo.png"/>
+  <link rel="stylesheet" href="./css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- Header will be injected here -->
+<div id="header-placeholder"></div>
+
+<!-- Load shared header from root -->
+<script>
+  fetch('header.html')
+    .then(r => {
+      if (!r.ok) throw new Error('Header file not found');
+      return r.text();
+    })
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+    })
+    .catch(err => {
+      console.error('Failed to load header:', err);
+      // Optional fallback: you could insert a minimal header here if needed
+    });
+</script>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-slides" id="hero-slides">
+    <div class="hero-slide active" style="background-image:url('./image/hero-bg.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('./image/16.-Levene-Hydrocarbon-Webpage-Image.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('./image/Solar-Mini-Grid-Project.jpg')"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow animate-up">Nigeria's Innovative Energy Group</div>
+    <h1 class="animate-up delay-1">The <em>Innovative</em><br>Solutions Provider</h1>
+    <p class="animate-up delay-2">Levene Energy operates across the oil & gas and energy sector — delivering integrated solutions from upstream exploration through midstream and downstream, to renewable energy deployment.</p>
+    <div class="hero-actions animate-up delay-3">
+      <a href="about.html" class="btn btn--green">Discover Levene</a>
+      <a href="subsidiaries.html" class="btn btn--outline">Our Business <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+  <div class="hero-dots" id="hero-dots">
+    <button class="hero-dot active" data-index="0" aria-label="Slide 1"></button>
+    <button class="hero-dot" data-index="1" aria-label="Slide 2"></button>
+    <button class="hero-dot" data-index="2" aria-label="Slide 3"></button>
+  </div>
+</section>
+
+<!-- ===== STATS BAND ===== -->
+<div class="stats-band">
+  <div class="stats-grid">
+    <div class="stat-item"><div class="stat-number">4<span>+</span></div><div class="stat-label">Operating Subsidiaries</div></div>
+    <div class="stat-item"><div class="stat-number">10<span>+</span></div><div class="stat-label">Years of Experience</div></div>
+    <div class="stat-item"><div class="stat-number">4</div><div class="stat-label">Global Office Locations</div></div>
+    <div class="stat-item"><div class="stat-number">100<span>%</span></div><div class="stat-label">Indigenous Ownership</div></div>
+  </div>
+</div>
+
+<!-- ===== COMPANY INTRO ===== -->
+<section class="intro-section" id="about">
+  <div class="intro-text">
+    <div class="section-label">About Levene Energy</div>
+    <h2 class="section-title">An <em>integrated</em> energy group built for Africa</h2>
+    <p>Levene Energy Holdings Limited is a Nigerian energy conglomerate with a diversified portfolio spanning oil and gas exploration, energy trading, renewable energy deployment, and infrastructure development.</p>
+    <p>Through our component entities, we provide innovative, technology-led solutions across the entire value chain — empowering businesses, communities, and the Nigerian energy landscape with a commitment to excellence and sustainability.</p>
+    <p>Headquartered in Lagos, with offices in Abuja, London and Mauritius, Levene operates with global standards and local expertise.</p>
+    <div class="intro-actions">
+      <a href="about.html" class="btn btn--primary">Our Story</a>
+      <a href="management.html" class="btn btn--outline-dark">Meet the Team</a>
+    </div>
+  </div>
+  <div class="intro-visual">
+    <img src="./image/16.-Levene-Hydrocarbon-Webpage-Image.jpg" alt="Levene Energy operations" class="intro-img-main" onerror="this.style.background='#0a2460';this.style.minHeight='400px'"/>
+    <img src="./image/Solar-Mini-Grid-Project.jpg" alt="Solar energy project" class="intro-img-accent" onerror="this.style.display='none'"/>
+    <div class="intro-badge">
+      <div class="intro-badge-number">10+</div>
+      <div class="intro-badge-text">Years of<br>Energy Excellence</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VALUE PROPS ===== -->
+<section class="value-section">
+  <div class="value-header">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">Key <em>capabilities</em> across the chain</h2>
+  </div>
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="value-icon"><i class="fas fa-oil-well"></i></div>
+      <h3>Integrated Energy Solutions</h3>
+      <p>Comprehensive coverage from upstream exploration and production through to downstream processing and distribution — tailored for operational excellence.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon"><i class="fas fa-globe"></i></div>
+      <h3>Global Energy Trading</h3>
+      <p>Active trading of crude oil, refined petroleum products and LNG across major international markets, leveraging our extensive network and market intelligence.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon"><i class="fas fa-solar-panel"></i></div>
+      <h3>Renewable Energy Innovation</h3>
+      <p>Pioneering solar energy deployment in Nigeria with locally assembled panels, mini-grid infrastructure and clean energy access solutions for underserved communities.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon"><i class="fas fa-hard-hat"></i></div>
+      <h3>Engineering & Development</h3>
+      <p>End-to-end project development, engineering, procurement and construction services delivered by highly qualified professionals to global best-practice standards.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon"><i class="fas fa-leaf"></i></div>
+      <h3>Sustainability Commitment</h3>
+      <p>Environmental stewardship and community development are core to our operations — we invest in the communities where we work and minimise our environmental footprint.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon"><i class="fas fa-chart-line"></i></div>
+      <h3>Strategic Partnerships</h3>
+      <p>Building enduring value through joint ventures, strategic alliances and indigenous participation that strengthen Nigeria's energy sector capacity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SUBSIDIARIES PREVIEW ===== -->
+<section style="background:var(--off-white);border-top:5px solid var(--green);padding:7rem 5%;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="subs-header">
+      <div>
+        <div class="section-label">Our Business</div>
+        <h2 class="section-title">Our <em>subsidiaries</em></h2>
+      </div>
+      <a href="subsidiaries.html" class="btn btn--outline-dark">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="subs-grid" id="home-subs-grid">
+      <div style="grid-column:span 4;text-align:center;padding:3rem;color:var(--muted)">
+        <i class="fas fa-spinner fa-spin" style="font-size:1.5rem"></i>
+        <p style="margin-top:.75rem">Loading subsidiaries…</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MANAGEMENT PREVIEW ===== -->
+<section class="mgmt-section">
+  <div class="mgmt-header">
+    <div>
+      <div class="section-label">Leadership</div>
+      <h2 class="section-title">Our <em>management</em> team</h2>
+    </div>
+    <a href="management.html" class="btn btn--outline">Meet All Leaders <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="mgmt-grid" id="home-mgmt-grid">
+    <div style="grid-column:span 4;text-align:center;padding:3rem;color:rgba(255,255,255,.5)">
+      <i class="fas fa-spinner fa-spin" style="font-size:1.5rem"></i>
+      <p style="margin-top:.75rem">Loading team…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MISSION / VISION / VALUES ===== -->
+<section class="mvv-section">
+  <div class="mvv-grid">
+    <div class="mvv-item">
+      <img src="./image/mission.png" alt="Mission" class="mvv-icon" onerror="this.outerHTML='<div class=\'mvv-icon\' style=\'display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gold)\'><i class=\'fas fa-bullseye\'></i></div>'"/>
+      <h3>Mission</h3>
+      <p>Levene is an innovative solutions provider to the global energy sector — leveraging advanced technology, highly qualified professionals and global best practices to create value for its stakeholders.</p>
+    </div>
+    <div class="mvv-item">
+      <img src="./image/vision.png" alt="Vision" class="mvv-icon" onerror="this.outerHTML='<div class=\'mvv-icon\' style=\'display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gold)\'><i class=\'fas fa-eye\'></i></div>'"/>
+      <h3>Vision</h3>
+      <p>To be a global leader in energy solutions characterised by quality, professionalism, and an unwavering commitment to excellence across every market we serve.</p>
+    </div>
+    <div class="mvv-item">
+      <img src="./image/values.png" alt="Values" class="mvv-icon" onerror="this.outerHTML='<div class=\'mvv-icon\' style=\'display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--gold)\'><i class=\'fas fa-star\'></i></div>'"/>
+      <h3>Values</h3>
+      <p><strong style="color:var(--gold)">T</strong>enacity &nbsp;·&nbsp; <strong style="color:var(--gold)">I</strong>nitiative &nbsp;·&nbsp; <strong style="color:var(--gold)">E</strong>xcellence &nbsp;·&nbsp; <strong style="color:var(--gold)">D</strong>epth of Character &nbsp;·&nbsp; <strong style="color:var(--gold)">D</strong>iligence</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWS PREVIEW ===== -->
+<section class="news-section">
+  <div class="news-header">
+    <div>
+      <div class="section-label">Latest Updates</div>
+      <h2 class="section-title">News &amp; <em>insights</em></h2>
+    </div>
+    <a href="blog.html" class="btn btn--outline-dark">View All Posts <i class="fas fa-arrow-right"></i></a>
+  </div>
+  <div class="news-grid" id="home-news-grid">
+    <div style="grid-column:span 3;text-align:center;padding:3rem;color:var(--muted)">
+      <i class="fas fa-spinner fa-spin" style="font-size:1.5rem"></i>
+      <p style="margin-top:0.75rem">Loading latest posts…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BAND ===== -->
+<section class="cta-band">
+  <h2>Ready to partner with Levene Energy?</h2>
+  <p>Whether you are an investor, supplier, partner or community stakeholder — we welcome the conversation.</p>
+  <a href="contact.html" class="btn btn--green">Get In Touch</a>
+  <a href="about.html" class="btn btn--outline">Learn More</a>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(r => r.text())
+    .then(html => document.getElementById('footer-placeholder').innerHTML = html)
+    .catch(err => console.error('Failed to load footer:', err));
+</script>
+
+<!-- ===== ALL SCRIPTS ===== -->
+
+<!-- Mobile nav (now only once – preferably move this to header.html later) -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.getElementById('hamburger');
+  const navList   = document.getElementById('nav-list');
+  const navClose  = document.getElementById('nav-close');
+
+  if (hamburger && navList) {
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      navList.classList.add('open');
+    });
+  }
+
+  if (navClose) {
+    navClose.addEventListener('click', () => {
+      navList.classList.remove('open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+    });
+  }
+
+  document.querySelectorAll('.nav-list .dropdown > a').forEach(link => {
+    link.addEventListener('click', e => {
+      if (window.innerWidth > 768) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const dropdown = link.closest('.dropdown');
+      const isOpen = dropdown.classList.contains('mob-open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+      if (!isOpen) dropdown.classList.add('mob-open');
+    });
+  });
+});
+</script>
+
+<!-- Hero slideshow -->
+<script>
+const slides = document.querySelectorAll('.hero-slide');
+const dots   = document.querySelectorAll('.hero-dot');
+let current = 0;
+let slideTimer;
+
+function goToSlide(n) {
+  if (slides.length === 0) return;
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = (n + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+
+function startSlider() {
+  slideTimer = setInterval(() => goToSlide(current + 1), 5000);
+}
+
+dots.forEach(d => {
+  d.addEventListener('click', () => {
+    clearInterval(slideTimer);
+    goToSlide(parseInt(d.dataset.index));
+    startSlider();
+  });
+});
+
+if (slides.length > 0) startSlider();
+</script>
+
+<!-- Sanity helpers + previews -->
+<script>
+// Sanity helpers
+const BASE = 'https://ilajnehi.apicdn.sanity.io/v2025-06-01/data/query/production';
+
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function fmt(d) {
+  return d ? new Date(d).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+}
+
+async function sq(query) {
+  try {
+    const res = await fetch(`${BASE}?query=${encodeURIComponent(query)}`);
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.result || [];
+  } catch {
+    return [];
+  }
+}
+
+// Subsidiaries preview
+const STATIC_SUBS = [
+  { slug:'levene-hydrocarbon',       name:'Levene Hydrocarbon Limited', sector:'Upstream · Midstream',     desc:'Engaged in the exploration, production and development of crude oil and natural gas assets across Nigeria\'s prolific basins.', img:'./image/16.-Levene-Hydrocarbon-Webpage-Image.jpg' },
+  { slug:'levene-energy-development',name:'Levene Energy Development',  sector:'Renewables · Development', desc:'Leading renewable energy projects including solar mini-grids, locally assembled solar panels and clean energy infrastructure.',   img:'./image/Solar-Mini-Grid-Project.jpg' },
+  { slug:'levene-trading',           name:'Levene Trading',             sector:'Downstream · Trading',     desc:'International trading of crude oil, petroleum products and LNG — connecting suppliers and buyers across global energy markets.',   img:null },
+];
+
+(async () => {
+  const grid = document.getElementById('home-subs-grid');
+  let subs = await sq(`*[_type=="subsidiary"]|order(order asc)[0...3]{"slug":slug.current,name,tagline,sector,"desc":pt::text(description),"img":coverImage.asset->url}`);
+  if (!subs.length) subs = STATIC_SUBS;
+
+  const cards = subs.slice(0,3).map(s => {
+    const href = `subsidiary.html?slug=${esc(s.slug||'')}`;
+    const src  = s.img ? (s.img.includes('cdn.sanity.io') ? `${s.img}?w=600&auto=format&fit=crop&q=80` : s.img) : null;
+    return `
+    <div class="sub-card" onclick="location.href='${href}'" style="cursor:pointer">
+      ${src ? `<img src="${src}" alt="${esc(s.name)}" class="sub-card-img" loading="lazy"/>` : `<div class="sub-card-img" style="background:linear-gradient(135deg,var(--navy),var(--navy-mid));display:flex;align-items:center;justify-content:center"><i class="fas fa-building" style="font-size:3rem;color:rgba(255,255,255,.12)"></i></div>`}
+      <div class="sub-card-body">
+        <div class="sub-card-sector">${esc(s.sector||'')}</div>
+        <div class="sub-card-name">${esc(s.name)}</div>
+        <div class="sub-card-desc">${esc(s.desc||s.tagline||'')}</div>
+        <a href="${href}" class="sub-card-link" onclick="event.stopPropagation()">Explore <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>`;
+  }).join('');
+
+  const ctaCard = `
+  <div class="sub-card" style="background:linear-gradient(135deg,#041844,#0a5e28);cursor:pointer" onclick="location.href='subsidiaries.html'">
+    <div class="sub-card-body" style="justify-content:center;text-align:center;align-items:center;">
+      <div class="sub-card-sector">All Divisions</div>
+      <div class="sub-card-name">View All Subsidiaries</div>
+      <div class="sub-card-desc">Explore the full portfolio of Levene Energy Holdings companies and the integrated value we deliver.</div>
+      <a href="subsidiaries.html" class="btn btn--green" style="margin-top:1.5rem" onclick="event.stopPropagation()">See Portfolio</a>
+    </div>
+  </div>`;
+
+  grid.innerHTML = cards + ctaCard;
+})();
+
+// Management preview
+const GRADS = [
+  'linear-gradient(135deg,#0a2460,#1e8a2e)',
+  'linear-gradient(135deg,#0a3070,#041844)',
+  'linear-gradient(135deg,#0c4a22,#041844)',
+  'linear-gradient(135deg,#041844,#1e3a6e)',
+];
+
+(async () => {
+  const grid = document.getElementById('home-mgmt-grid');
+  let people = await sq(`*[_type=="management"]|order(order asc)[0...4]{_id,"slug":slug.current,name,designation,"photoUrl":photo.asset->url}`);
+
+  if (!people.length) {
+    const placeholders = [
+      { name:'Group Chief Executive',   designation:'Executive Director' },
+      { name:'Managing Director',        designation:'Levene Hydrocarbon Limited' },
+      { name:'Chief Financial Officer',  designation:'Group Finance' },
+      { name:'Chief Operations Officer', designation:'Group Operations' },
+    ];
+    grid.innerHTML = placeholders.map((p,i) => `
+    <div class="mgmt-card">
+      <div class="mgmt-photo">
+        <div style="width:100%;height:100%;background:${GRADS[i]};display:flex;align-items:center;justify-content:center;font-size:4rem;color:rgba(255,255,255,.2)"><i class="fas fa-user"></i></div>
+        <div class="mgmt-photo-overlay"></div>
+      </div>
+      <div class="mgmt-name">${p.name}</div>
+      <div class="mgmt-title">${p.designation}</div>
+    </div>`).join('');
+    return;
+  }
+
+  grid.innerHTML = people.map((p,i) => {
+    const href     = `team-member.html?slug=${esc(p.slug||p._id)}`;
+    const photoSrc = p.photoUrl ? `${p.photoUrl}?w=480&h=600&fit=crop&q=80` : null;
+    return `
+    <div class="mgmt-card" onclick="location.href='${href}'" style="cursor:pointer">
+      <div class="mgmt-photo">
+        ${photoSrc
+          ? `<img src="${photoSrc}" alt="${esc(p.name)}" loading="lazy" style="width:100%;height:100%;object-fit:cover"/>`
+          : `<div style="width:100%;height:100%;background:${GRADS[i%4]};display:flex;align-items:center;justify-content:center;font-size:4rem;color:rgba(255,255,255,.2)"><i class="fas fa-user"></i></div>`}
+        <div class="mgmt-photo-overlay"></div>
+      </div>
+      <div class="mgmt-name">${esc(p.name||'Team Member')}</div>
+      <div class="mgmt-title">${esc(p.designation||'')}</div>
+    </div>`;
+  }).join('');
+})();
+
+// Blog preview
+(async () => {
+  const grid = document.getElementById('home-news-grid');
+  let posts = await sq(`*[_type=="post"]|order(coalesce(publishedAt,_createdAt) desc)[0...3]{_id,title,"slug":slug.current,excerpt,"publishedAt":coalesce(publishedAt,_createdAt),"imageUrl":mainImage.asset->url}`);
+
+  if (!posts.length) {
+    grid.innerHTML = `<div style="grid-column:span 3;text-align:center;padding:3rem;color:var(--muted)">No posts published yet. <a href="https://leveneenergy-studio.sanity.studio" target="_blank" style="color:var(--green)">Add posts in Sanity Studio</a>.</div>`;
+    return;
+  }
+
+  grid.innerHTML = posts.map(p => {
+    const href   = p.slug ? `post.html?slug=${esc(p.slug)}` : '#';
+    const imgSrc = p.imageUrl ? `${p.imageUrl}?w=800&auto=format&fit=crop&q=80` : '';
+    return `
+    <article class="news-card" onclick="location.href='${href}'" style="cursor:pointer">
+      ${imgSrc
+        ? `<div class="news-card-img"><img src="${imgSrc}" alt="${esc(p.title)}" loading="lazy"/></div>`
+        : `<div class="news-card-img" style="background:var(--navy);display:flex;align-items:center;justify-content:center"><i class="fas fa-newspaper" style="font-size:2.5rem;color:rgba(255,255,255,.2)"></i></div>`}
+      <div class="news-card-body">
+        <div class="news-card-tag">Blog · Insights</div>
+        <h3 class="news-card-title">${esc(p.title)||'Untitled'}</h3>
+        ${p.excerpt ? `<p class="news-card-excerpt">${esc(p.excerpt)}</p>` : ''}
+        <div class="news-card-footer">
+          <span>${fmt(p.publishedAt)}</span>
+          <a href="${href}" class="news-read-more" onclick="event.stopPropagation()">Read more <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+})();
+</script>
+
+</body>
+</html>

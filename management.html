@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Management Team — Levene Energy Holdings Limited</title>
+  <meta name="description" content="Meet the experienced leadership team driving Levene Energy Holdings Limited."/>
+  <meta property="og:title" content="Management Team — Levene Energy Holdings"/>
+  <meta property="og:description" content="Our leaders bring decades of experience across international and Nigerian energy markets."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="./image/levenelogo.png"/>
+
+  <link rel="stylesheet" href="./css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    .team-section {
+      background: var(--off-white);
+      padding: 5rem 5% 7rem;
+      border-top: 5px solid var(--green);
+    }
+    .team-wrap { max-width: 1280px; margin: 0 auto; }
+    .team-intro {
+      text-align: center;
+      max-width: 660px;
+      margin: 0 auto 3.5rem;
+    }
+    .team-intro .section-label { justify-content: center; }
+    .team-intro p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-top: .75rem; }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .team-card {
+      background: var(--white);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+    }
+    .team-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-deep); }
+
+    .team-photo {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--smoke);
+      position: relative;
+    }
+    .team-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(15%);
+      transition: filter .35s var(--ease), transform .5s var(--ease);
+    }
+    .team-card:hover .team-photo img {
+      filter: grayscale(0%);
+      transform: scale(1.04);
+    }
+
+    .team-photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      color: rgba(255,255,255,.12);
+    }
+    .team-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(4,24,68,.65) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity .25s var(--ease);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.25rem;
+    }
+    .team-card:hover .team-overlay { opacity: 1; }
+    .team-overlay span {
+      color: var(--white);
+      font-size: .78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .team-info {
+      padding: 1.25rem 1.4rem;
+    }
+    .team-name {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.25;
+    }
+    .team-role {
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: .3rem;
+    }
+    .team-empty {
+      grid-column: span 4;
+      text-align: center;
+      padding: 5rem 2rem;
+      color: var(--muted);
+    }
+    .team-empty i {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .team-empty a {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .team-grid { grid-template-columns: repeat(3,1fr); }
+      .team-empty { grid-column: span 3; }
+    }
+    @media (max-width: 700px) {
+      .team-grid { grid-template-columns: repeat(2,1fr); }
+      .team-empty { grid-column: span 2; }
+    }
+    @media (max-width: 440px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .team-empty { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div id="header-placeholder"></div>
+
+<script>
+  fetch('header.html')
+    .then(r => {
+      if (!r.ok) throw new Error('Header not found');
+      return r.text();
+    })
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+    })
+    .catch(err => console.error('Failed to load header:', err));
+</script>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="section-label">Leadership</div>
+    <h1>MANAGEMENT <em>TEAM</em></h1>
+    <p>Our leaders bring decades of experience across international and Nigerian energy markets, combining global expertise with local insight.</p>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span>/</span><span>Management Team</span>
+    </div>
+  </div>
+</section>
+
+<!-- Team Grid -->
+<section class="team-section">
+  <div class="team-wrap">
+    <div class="team-intro">
+      <div class="section-label">The People Behind Levene</div>
+      <h2 class="section-title">Meet the <em>Team</em></h2>
+      <p>Click any profile to read their full biography, career background and areas of expertise.</p>
+    </div>
+
+    <div class="team-grid" id="mgmt-grid">
+      <div class="team-empty">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading leadership profiles…</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Band -->
+<section class="cta-band">
+  <h2>Work with our team</h2>
+  <p>Interested in exploring career or partnership opportunities with Levene Energy Holdings?</p>
+  <a href="contact.html" class="btn btn--green">Get In Touch</a>
+</section>
+<div id="footer-placeholder"></div>
+
+<script>
+  fetch('footer.html')
+    .then(r => r.text())
+    .then(html => document.getElementById('footer-placeholder').innerHTML = html)
+    .catch(err => console.error('Failed to load footer:', err));
+</script>
+
+<!-- Mobile Nav (only once – preferably move to header.html later) -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.getElementById('hamburger');
+  const navList   = document.getElementById('nav-list');
+  const navClose  = document.getElementById('nav-close');
+
+  if (hamburger && navList) {
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      navList.classList.add('open');
+    });
+  }
+
+  if (navClose) {
+    navClose.addEventListener('click', () => {
+      navList.classList.remove('open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+    });
+  }
+
+  document.querySelectorAll('.nav-list .dropdown > a').forEach(link => {
+    link.addEventListener('click', e => {
+      if (window.innerWidth > 768) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const dropdown = link.closest('.dropdown');
+      const isOpen = dropdown.classList.contains('mob-open');
+      document.querySelectorAll('.nav-list .dropdown').forEach(d => d.classList.remove('mob-open'));
+      if (!isOpen) dropdown.classList.add('mob-open');
+    });
+  });
+});
+</script>
+
+<!-- Team Loading -->
+<script>
+const GRADS = [
+  'linear-gradient(135deg,#0a2460,#1e8a2e)',
+  'linear-gradient(135deg,#0a3070,#041844)',
+  'linear-gradient(135deg,#0c4a22,#041844)',
+  'linear-gradient(135deg,#041844,#1e3a6e)',
+];
+
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function render(people) {
+  const grid = document.getElementById('mgmt-grid');
+  if (!people.length) {
+    grid.innerHTML = `<div class="team-empty"><i class="fas fa-users"></i><p>No profiles found. Add team members in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = people.map((p, i) => {
+    const href     = `team-member.html?slug=${esc(p.slug || p._id || '')}`;
+    const photoSrc = p.photoUrl ? `${p.photoUrl}?w=480&h=640&fit=crop&q=80` : null;
+
+    return `
+    <article class="team-card" onclick="location.href='${href}'" style="cursor:pointer">
+      <div class="team-photo">
+        ${photoSrc
+          ? `<img src="${photoSrc}" alt="${esc(p.name || 'Team Member')}" loading="lazy"/>`
+          : `<div class="team-photo-placeholder" style="background:${GRADS[i % GRADS.length]}"><i class="fas fa-user"></i></div>`}
+        <div class="team-overlay">
+          <span><i class="fas fa-arrow-right"></i> View Profile</span>
+        </div>
+      </div>
+      <div class="team-info">
+        <div class="team-name">${esc(p.name || 'Team Member')}</div>
+        <div class="team-role">${esc(p.designation || '')}</div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+(async () => {
+  const BASE = 'https://ilajnehi.apicdn.sanity.io/v2025-06-01/data/query/production';
+  const q = `*[_type=="management"]|order(order asc){_id,"slug":slug.current,name,designation,"photoUrl":photo.asset->url}`;
+
+  try {
+    const res = await fetch(`${BASE}?query=${encodeURIComponent(q)}`);
+    if (!res.ok) throw new Error('Sanity fetch failed');
+    const data = await res.json();
+    render(data.result || []);
+  } catch (err) {
+    console.error(err);
+    render([]);
+  }
+})();
+</script>
+
+</body>
+</html>
