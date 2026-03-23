@@ -9,14 +9,14 @@
   <meta property="og:description" content="Insights, updates and thought leadership from the energy sector.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="./image/levenelogo.png">
-  <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
+    <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
+
 
   <link rel="stylesheet" href="./css/blog.css">
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-
 
 <div id="header-placeholder"></div>
 
@@ -50,6 +50,21 @@
 <main class="posts-container" id="posts-container">
   <div class="loading">Loading latest insights...</div>
 </main>
+
+<!-- CTA Band -->
+<section class="cta-band">
+  <div style="position:relative; z-index:1;">
+    <div class="section-label" style="justify-content:center; color:var(--gold);">
+      Stay Informed
+    </div>
+    <h2>Never Miss a Story</h2>
+    <p>From energy market insights and industry trends to company news and expert perspectives — the Levene Energy blog keeps you ahead of the curve.</p>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem;">
+  
+       <a href="contact.html" class="btn btn--green">Get In Touch</a>
+    </div>
+  </div>
+</section>
 <div id="footer-placeholder"></div>
 
 <script>
@@ -59,6 +74,7 @@
     .catch(err => console.error('Failed to load footer:', err));
 </script>
 
+<!-- Mobile menu logic (only once) -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.getElementById('hamburger');
@@ -93,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-
+<!-- Blog posts fetching & rendering -->
 <script type="module">
   const PROJECT_ID  = 'ilajnehi';
   const DATASET     = 'production';
