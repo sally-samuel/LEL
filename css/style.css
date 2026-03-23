@@ -1,6 +1,6 @@
 @import url("https://use.typekit.net/ojd6uuf.css");
 
-/* ===== DESIGN TOKENS ===== */
+
 :root {
   --navy: #174caa;
   --navy-mid: #0a2460;
@@ -1264,11 +1264,14 @@ button {
 }
 
 /* ===== PAGE HERO (inner pages) ===== */
+
 .page-hero {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
   padding: 7rem 5% 5rem;
   position: relative;
   overflow: hidden;
+  border-bottom: 5px solid var(--green);
+
 }
 .page-hero::after {
   content: "";
