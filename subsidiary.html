@@ -206,6 +206,24 @@ const esc = s => String(s || '')
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;');
 
+// Portable Text → HTML converter
+function ptToHtml(blocks) {
+  if (!blocks?.length) return '<p>No content available.</p>';
+  return blocks.map(block => {
+    if (block._type !== 'block') return '';
+    const text = (block.children || []).map(child => {
+      let t = esc(child.text || '');
+      if (child.marks?.includes('strong')) t = `<strong>${t}</strong>`;
+      if (child.marks?.includes('em')) t = `<em>${t}</em>`;
+      return t;
+    }).join('');
+    const style = block.style || 'normal';
+    if (['h2','h3','h4'].includes(style)) return `<${style}>${text}</${style}>`;
+    if (style === 'blockquote') return `<blockquote>${text}</blockquote>`;
+    return `<p>${text}</p>`;
+  }).join('');
+}
+
 // Static fallback data (used if Sanity query fails or item not found)
 const STATIC = {
   "levene-hydrocarbon": {
@@ -234,7 +252,7 @@ const STATIC = {
     sector: "Gas · Power · Infrastructure",
     tagline: "Building Scalable Energy Infrastructure Across West Africa",
     description: "<p>Levene Gas &amp; Power is a diversified energy infrastructure platform that builds, owns and invests in scalable gas, power and renewable assets — while delivering strategic procurement and advisory solutions across Nigeria and West Africa.</p><p>We operate at the intersection of gas commercialisation and power generation, bridging the critical gap between Nigeria's abundant hydrocarbon resources and its significant electricity deficit. Our integrated approach enables us to develop projects from concept to commissioning, offering a full-cycle solution for energy infrastructure development.</p><h2>What We Do</h2><ul><li><strong>Gas Infrastructure Development</strong> — Aggregation, processing and distribution of natural gas through pipelines, virtual pipeline systems and CNG/LNG logistics networks.</li><li><strong>Power Generation</strong> — Development and operation of gas-to-power plants, including captive power solutions for industrial and commercial clients.</li><li><strong>Mini-Grid &amp; Distributed Energy</strong> — Off-grid and hybrid power systems combining gas and renewables to extend reliable electricity to underserved communities and industrial clusters.</li><li><strong>Energy Procurement &amp; Advisory</strong> — Strategic sourcing, procurement management and commercial advisory for energy projects across the value chain.</li><li><strong>Infrastructure Investment</strong> — Co-investment and project finance structuring for scalable energy assets with long-term offtake agreements.</li></ul><h2>Our Focus</h2><p>With Nigeria's electricity supply gap estimated at over 180,000 MW of unmet demand, Levene Gas &amp; Power is positioned to deliver reliable, affordable and sustainable energy solutions. We partner with governments, development finance institutions, industrial operators and private investors to unlock the commercial potential of West Africa's energy transition.</p>",
-    imgUrl: "./image/Gas-power.PNG"
+    imgUrl: "./image/16.-Levene-Hydrocarbon-Webpage-Image.jpg"
   }
 };
 
@@ -260,8 +278,10 @@ function paint(sub, slug) {
     </div>
   </section>`;
 
-  // You can replace this with your real Portable Text → HTML renderer (ptToHtml) if you have it
-  const bodyHtml = sub.description || '<p>Content coming soon.</p>';
+  // Convert Portable Text array to HTML, or fall back to plain string (static data)
+  const bodyHtml = Array.isArray(sub.description)
+    ? ptToHtml(sub.description)
+    : sub.description || '<p>Content coming soon.</p>';
 
   document.getElementById('sub-body-wrap').innerHTML = `
   <div class="sub-body">

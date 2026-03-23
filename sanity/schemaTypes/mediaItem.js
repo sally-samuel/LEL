@@ -19,7 +19,6 @@ export default defineType({
         list: [
           {title: 'Photo', value: 'photo'},
           {title: 'Video', value: 'video'},
-          {title: 'Press Release', value: 'press_release'},
           {title: 'Newsletter', value: 'newsletter'},
         ],
         layout: 'radio',
@@ -49,10 +48,9 @@ export default defineType({
     }),
     defineField({
       name: 'file',
-      title: 'File (PDF for press releases / newsletters)',
+      title: 'File (PDF for newsletters)',
       type: 'file',
-      hidden: ({document}) =>
-        document?.type !== 'press_release' && document?.type !== 'newsletter',
+      hidden: ({document}) => document?.type !== 'newsletter',
     }),
     defineField({
       name: 'caption',

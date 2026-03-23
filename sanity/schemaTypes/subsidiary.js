@@ -49,8 +49,7 @@ export default defineType({
       options: {
         list: [
           {title: 'Upstream', value: 'upstream'},
-          {title: 'Midstream', value: 'midstream'},
-          {title: 'Downstream', value: 'downstream'},
+          {title: 'Gas', value: 'gas'},
           {title: 'Renewables', value: 'renewables'},
           {title: 'Trading', value: 'trading'},
         ],

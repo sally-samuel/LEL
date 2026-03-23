@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Media Centre — Levene Energy Holdings Limited</title>
-  <meta name="description" content="Explore Levene Energy Holdings' media centre — gallery, events, press releases and newsletters."/>
-  <meta property="og:title" content="Media Centre — Levene Energy Holdings"/>
+  <title>Media Centre   Levene Energy Holdings Limited</title>
+  <meta name="description" content="Explore Levene Energy Holdings' media centre   gallery, events, press releases and newsletters."/>
+  <meta property="og:title" content="Media Centre   Levene Energy Holdings"/>
   <meta property="og:description" content="Gallery, events, press releases, newsletters and latest updates from Levene Energy."/>
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="./image/levenelogo.png"/>
@@ -18,7 +18,7 @@
     .lightbox-overlay {
       position: fixed;
       inset: 0;
-      background: #174caa;
+      background: rgba(0,0,0,0.92);
       z-index: 3000;
       display: flex;
       align-items: center;
@@ -32,10 +32,11 @@
       visibility: visible;
     }
     .lightbox-img {
-      max-width: 90vw;
-      max-height: 85vh;
+      max-width: 88vw;
+      max-height: 82vh;
       object-fit: contain;
       border-radius: 4px;
+      transition: opacity 0.2s;
     }
     .lightbox-caption {
       position: fixed;
@@ -45,17 +46,145 @@
       color: rgba(255, 255, 255, 0.65);
       font-size: 0.85rem;
       text-align: center;
+      max-width: 80vw;
     }
     .lightbox-close {
       position: fixed;
       top: 1.5rem;
-      right: 2rem;
-      color: rgba(255, 255, 255, 0.6);
+      right: 1.5rem;
+      color: white;
       font-size: 2rem;
       cursor: pointer;
       transition: color 0.2s;
+      background: none;
+      border: none;
+      line-height: 1;
+      z-index: 3010;
     }
-    .lightbox-close:hover { color: white; }
+    .lightbox-close:hover { color: var(--gold, #c9a84c); }
+    .lightbox-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: white;
+      font-size: 1.6rem;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 3010;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.28); }
+    .lightbox-prev { left: 1.5rem; }
+    .lightbox-next { right: 1.5rem; }
+    .lightbox-counter {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* Video Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .video-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-deep);
+    }
+    .video-thumb-wrap {
+      position: relative;
+      padding-top: 56.25%; 
+      background: #000;
+      cursor: pointer;
+    }
+    .video-thumb-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+    .video-play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      color: white;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    .video-card-body {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+    .video-card-title {
+      font-weight: 600;
+      color: var(--navy);
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+    }
+    .video-card-caption {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    /* Inline video modal */
+    .video-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 3500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s;
+    }
+    .video-modal-overlay.open { opacity: 1; visibility: visible; }
+    .video-modal-inner {
+      position: relative;
+      width: min(900px, 92vw);
+      aspect-ratio: 16/9;
+    }
+    .video-modal-inner iframe {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      border: none;
+    }
+    .video-modal-close {
+      position: absolute;
+      top: -2.5rem;
+      right: 0;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      line-height: 1;
+    }
 
     /* Tabs & Panels */
     .media-tabs { padding: 3rem 5%; background: var(--off-white); }
@@ -70,7 +199,7 @@
       padding: 0.75rem 1.5rem;
       font-weight: 600;
       border: 2px solid var(--navy);
-      border-radius: 30px;
+      border-radius: 60px;
       background: white;
       color: var(--navy);
       cursor: pointer;
@@ -112,7 +241,7 @@
     /* Press / Newsletter items */
     .press-item {
       display: flex;
-      align-items: center;
+      align-items: last baseline;
       gap: 1.25rem;
       background: white;
       padding: 1.25rem 1.5rem;
@@ -122,7 +251,70 @@
       cursor: pointer;
       transition: transform 0.25s;
     }
-    .press-item:hover { transform: translateY(-3px); }
+   .press-item:hover { transform: translateY(-3px); }
+    .press-thumb {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+      flex-shrink: 0;
+      background: var(--off-white, #f5f5f5);
+    }
+    .press-thumb-placeholder {
+      width: 200px;
+      height: 150px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      background: var(--off-white, #f5f5f5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      font-size: 2rem;
+    }
+    .press-item .press-text {
+      flex: 1;
+      min-width: 0;
+      max-width: 500px;
+       color: var(--muted);
+      text-align: justify;
+    }
+    #newsletter-list {
+  max-width: 800px; 
+  margin: 0 auto;    
+}
+    #press-list {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    #events-list {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    .rounded-pill {
+      border-radius: 9999px;
+      padding: 0.4rem 1.8rem;        
+      min-width: 50px;               
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+
+    #panel-events .btn--primary.rounded-pill {
+      background: var(--primary, #174caa);  
+      color: white;
+      border: none;
+    }
+
+    #panel-events .btn--outline-dark.rounded-pill {
+      border: 2px solid var(--navy, #041844);
+      background: transparent;
+      color: var(--navy, #041844);
+    }
+
+    #panel-events .btn.rounded-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
   </style>
 </head>
 <body>
@@ -147,7 +339,7 @@
   <div class="page-hero-inner">
     <div class="section-label">Media Centre</div>
     <h1>MEDIA</h1>
-    <p>Stay up to date with Levene Energy Holdings — images from our operations, upcoming events, and official communications.</p>
+    <p>Stay up to date with Levene Energy Holdings   images from our operations, upcoming events, and official communications.</p>
     <div class="breadcrumb">
       <a href="index.html">Home</a><span>/</span><span>Media</span>
     </div>
@@ -157,17 +349,22 @@
 <!-- Media Tabs -->
 <section class="media-tabs">
   <div class="tab-bar" role="tablist">
-    <button class="tab-btn active" data-tab="gallery" role="tab" aria-selected="true" aria-controls="panel-gallery">
+     <button class="tab-btn active " data-tab="gallery" role="tab" aria-selected="false" aria-controls="panel-gallery">
       <i class="fas fa-images"></i> Gallery
     </button>
-    <button class="tab-btn" data-tab="events" role="tab" aria-selected="false" aria-controls="panel-events">
-      <i class="fas fa-calendar-alt"></i> Events
+    
+    <button class="tab-btn " data-tab="newsletters" role="tab" aria-selected="false" aria-controls="panel-newsletters">
+      <i class="fas fa-envelope-open-text"></i> Newsletters
     </button>
     <button class="tab-btn" data-tab="press" role="tab" aria-selected="false" aria-controls="panel-press">
       <i class="fas fa-newspaper"></i> Press Releases
     </button>
-    <button class="tab-btn" data-tab="newsletters" role="tab" aria-selected="false" aria-controls="panel-newsletters">
-      <i class="fas fa-envelope-open-text"></i> Newsletters
+     <button class="tab-btn" data-tab="events" role="tab" aria-selected="false" aria-controls="panel-events">
+      <i class="fas fa-calendar-alt"></i> Events
+    </button>
+   
+    <button class="tab-btn" data-tab="videos" role="tab" aria-selected="false" aria-controls="panel-videos">
+      <i class="fas fa-play-circle"></i> Videos
     </button>
   </div>
 
@@ -183,13 +380,25 @@
     </div>
   </div>
 
+  <!-- Videos Tab -->
+  <div class="tab-panel" id="panel-videos" role="tabpanel">
+    <div class="tab-panel-inner">
+      <div class="video-grid" id="video-grid">
+        <div class="empty-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading videos…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Events Tab -->
   <div class="tab-panel" id="panel-events" role="tabpanel">
     <div class="tab-panel-inner">
-      <div style="display:flex; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap; justify-content:center;">
-        <button class="btn btn--primary" id="filter-all" onclick="filterEvents('all')">All Events</button>
-        <button class="btn btn--outline-dark" id="filter-upcoming" onclick="filterEvents('upcoming')">Upcoming</button>
-        <button class="btn btn--outline-dark" id="filter-past" onclick="filterEvents('past')">Past</button>
+      <div style="display:flex; gap:0.75rem; margin-bottom:2rem; flex-wrap:wrap; justify-content:center; ">
+        <button class="btn btn--primary rounded-pill" id="filter-all" onclick="filterEvents('all')">All Events</button>
+        <button class="btn btn--outline-dark rounded-pill" id="filter-upcoming" onclick="filterEvents('upcoming')">Upcoming</button>
+        <button class="btn btn--outline-dark rounded-pill" id="filter-past" onclick="filterEvents('past')">Past</button>
       </div>
       <div id="events-list">
         <div class="empty-state">
@@ -224,6 +433,7 @@
     </div>
   </div>
 </section>
+
 <div id="footer-placeholder"></div>
 
 <script>
@@ -236,8 +446,26 @@
 <!-- Lightbox -->
 <div class="lightbox-overlay" id="lightbox">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close lightbox"><i class="fas fa-times"></i></button>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
   <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
   <div class="lightbox-caption" id="lightbox-caption"></div>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<!-- Video Modal -->
+<div class="video-modal-overlay" id="video-modal">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="video-modal-close" aria-label="Close video"><i class="fas fa-times"></i></button>
+    <iframe id="video-modal-iframe" src="" allowfullscreen allow="autoplay; encrypted-media" onload="checkVideoEmbed(this)"></iframe>
+    <div id="video-modal-fallback" style="display:none; position:absolute; inset:0; background:#111; border-radius:8px; flex-direction:column; align-items:center; justify-content:center; gap:1.25rem; color:white; text-align:center; padding:2rem;">
+      <i class="fas fa-exclamation-circle" style="font-size:3rem; opacity:0.5;"></i>
+      <p style="font-size:1rem; opacity:0.75; max-width:320px; line-height:1.6; margin:0;">This video cannot be played here because the owner has disabled embedding.</p>
+      <a id="video-modal-fallback-link" href="#" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:0.5rem; background:var(--green,#2e7d32); color:white; padding:0.75rem 1.5rem; border-radius:30px; font-weight:600; text-decoration:none; font-size:0.9rem;">
+        <i class="fas fa-external-link-alt"></i> Watch on YouTube
+      </a>
+    </div>
+  </div>
 </div>
 
 <!-- Scripts -->
@@ -265,9 +493,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.nav-list .dropdown > a').forEach(link => {
     link.addEventListener('click', e => {
       if (window.innerWidth > 768) return;
-      // Allow hash links to work (don't prevent default for # links)
       if (link.getAttribute('href').startsWith('#')) {
-        return; // Let browser handle hash navigation
+        return;
       }
       e.preventDefault();
       e.stopPropagation();
@@ -293,7 +520,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const panel = document.getElementById(panelId);
       if (panel) {
         panel.classList.add('active');
-        // Smooth scroll to tabs section
         document.querySelector('.media-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
@@ -301,10 +527,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Activate tab based on URL hash (from dropdown or direct link)
   function activateTabFromHash() {
     const hash = location.hash.replace('#', '');
-    if (hash && ['gallery', 'events', 'press', 'newsletters'].includes(hash)) {
+    if (hash && ['gallery', 'videos', 'events', 'press', 'newsletters'].includes(hash)) {
       const btn = document.querySelector(`.tab-btn[data-tab="${hash}"]`);
       if (btn && !btn.classList.contains('active')) {
         btn.click();
@@ -312,29 +537,103 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Run on load
   activateTabFromHash();
-
-  // Run on hash change (browser back/forward)
   window.addEventListener('hashchange', activateTabFromHash);
-
-  // Lightbox
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightbox-img');
-  const lbCap = document.getElementById('lightbox-caption');
-
-  document.getElementById('lightbox-close').addEventListener('click', () => lb.classList.remove('open'));
-  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
-
-  window.openLightbox = function(src, alt, caption) {
-    lbImg.src = src;
-    lbImg.alt = alt || '';
-    lbCap.textContent = caption || '';
-    lb.classList.add('open');
-  };
 });
 
-// ── Sanity loading scripts (unchanged) ──
+window._galleryItems = [];
+window._videoItems   = [];
+
+window.openLightbox = function(items, index) {
+  window._galleryItems = items;
+  const lb        = document.getElementById('lightbox');
+  const lbImg     = document.getElementById('lightbox-img');
+  const lbCap     = document.getElementById('lightbox-caption');
+  const lbCounter = document.getElementById('lightbox-counter');
+  window._lbIndex = (index + items.length) % items.length;
+
+  function lbShow(i) {
+    window._lbIndex = (i + window._galleryItems.length) % window._galleryItems.length;
+    const item = window._galleryItems[window._lbIndex];
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lbImg.src = item.src; lbImg.alt = item.alt || '';
+      lbCap.textContent = item.caption || '';
+      lbCounter.textContent = window._galleryItems.length > 1 ? `${window._lbIndex + 1} / ${window._galleryItems.length}` : '';
+      lbImg.style.opacity = '1';
+    }, 150);
+    document.getElementById('lightbox-prev').style.display = window._galleryItems.length > 1 ? '' : 'none';
+    document.getElementById('lightbox-next').style.display = window._galleryItems.length > 1 ? '' : 'none';
+  }
+
+  window._lbShow = lbShow;
+  lb.classList.add('open');
+  lbShow(window._lbIndex);
+};
+
+window.openVideoModal = function(index) {
+  const item = window._videoItems[index];
+  if (!item) return;
+  const vm       = document.getElementById('video-modal');
+  const vmIframe = document.getElementById('video-modal-iframe');
+  const fallback = document.getElementById('video-modal-fallback');
+  const fbLink   = document.getElementById('video-modal-fallback-link');
+
+  fallback.style.display = 'none';
+  vmIframe.style.display = '';
+  vmIframe.src = item.embedUrl || '';
+
+  fbLink.href = item.rawUrl || item.embedUrl || '#';
+
+  vm.classList.add('open');
+};
+
+window.checkVideoEmbed = function(iframe) {
+  try {
+    const loc = iframe.contentWindow.location.href;
+    if (loc && loc !== 'about:blank') {
+      showVideoFallback();
+    }
+  } catch(e) {}
+};
+
+function showVideoFallback() {
+  const vmIframe = document.getElementById('video-modal-iframe');
+  const fallback = document.getElementById('video-modal-fallback');
+  vmIframe.style.display = 'none';
+  fallback.style.display = 'flex';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-close').addEventListener('click', () => lb.classList.remove('open'));
+  lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+  document.getElementById('lightbox-prev').addEventListener('click', e => { e.stopPropagation(); window._lbShow && window._lbShow(window._lbIndex - 1); });
+  document.getElementById('lightbox-next').addEventListener('click', e => { e.stopPropagation(); window._lbShow && window._lbShow(window._lbIndex + 1); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  window._lbShow && window._lbShow(window._lbIndex - 1);
+    if (e.key === 'ArrowRight') window._lbShow && window._lbShow(window._lbIndex + 1);
+    if (e.key === 'Escape')     lb.classList.remove('open');
+  });
+  const vm = document.getElementById('video-modal');
+  document.getElementById('video-modal-close').addEventListener('click', () => {
+    vm.classList.remove('open');
+    document.getElementById('video-modal-iframe').src = '';
+    document.getElementById('video-modal-iframe').style.display = '';
+    document.getElementById('video-modal-fallback').style.display = 'none';
+  });
+  vm.addEventListener('click', e => {
+    if (e.target === vm) {
+      vm.classList.remove('open');
+      document.getElementById('video-modal-iframe').src = '';
+      document.getElementById('video-modal-iframe').style.display = '';
+      document.getElementById('video-modal-fallback').style.display = 'none';
+    }
+  });
+});
+
+// ── Sanity loading scripts ──
 const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const fmt = d => d ? new Date(d).toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'}) : '';
 
@@ -362,118 +661,174 @@ async function sq(q) {
     return;
   }
 
-  grid.innerHTML = items.map(it => {
+  const lbItems = items.map(it => ({
+    src:     `${it.url}?w=1400&auto=format`,
+    alt:     it.title || '',
+    caption: it.caption || ''
+  }));
+
+  grid.innerHTML = items.map((it, i) => {
     const thumb = `${it.url}?w=600&h=450&fit=crop&q=80`;
-    const full  = `${it.url}?w=1400&auto=format`;
     return `
-      <div class="gallery-item" onclick="openLightbox('${full}','${esc(it.title)}','${esc(it.caption||'')}')">
+      <div class="gallery-item" onclick="openLightbox(window._galleryItems, ${i})">
         <img src="${thumb}" alt="${esc(it.title)}" loading="lazy"/>
         <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
       </div>`;
   }).join('');
+
+  window._galleryItems = lbItems;
 })();
 
-      // EVENTS
-      let allEvents = []
-      ;(async () => {
-        allEvents = await sq(
-          `*[_type=="event"]|order(eventDate desc){"slug":slug.current,_id,title,excerpt,eventDate,location,status,registrationUrl,"img":coverImage.asset->url}`,
-        )
-        renderEvents(allEvents)
-      })()
+// VIDEOS
+;(async () => {
+  const items = await sq(
+    `*[_type=="mediaItem"&&type=="video"]|order(publishedAt desc)[0...24]{title,caption,videoUrl,publishedAt}`
+  );
+  const grid = document.getElementById('video-grid');
 
-      function renderEvents(evts) {
-        const el = document.getElementById('events-list')
-        if (!evts.length) {
-          el.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-times"></i><p>No events found. Add events in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
-          return
-        }
-        el.innerHTML = evts
-          .map((ev) => {
-            const d = ev.eventDate ? new Date(ev.eventDate) : null
-            const href = `event.html?slug=${esc(ev.slug || ev._id)}`
-            return `
-    <div class="event-card" onclick="location.href='${href}'">
-      <div class="event-date-block">
-        <div class="event-date-day">${d ? d.getDate() : '--'}</div>
-        <div class="event-date-month">${d ? d.toLocaleString('en', {month: 'short'}) : '--'}</div>
-        <div class="event-date-year">${d ? d.getFullYear() : ''}</div>
+  if (!items.length) {
+    grid.innerHTML = `<div class="empty-state"><i class="fas fa-video-slash"></i><p>No videos yet. Add them in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`;
+    return;
+  }
+
+  window._videoItems = items.map(it => {
+    const url = it.videoUrl || '';
+    const ytMatch  = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    const vimMatch = url.match(/vimeo\.com\/(\d+)/);
+    let embedUrl = '', thumbUrl = '';
+    if (ytMatch) {
+      const vid = ytMatch[1];
+      embedUrl = `https://www.youtube.com/embed/${vid}?autoplay=1`;
+      thumbUrl = `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
+    } else if (vimMatch) {
+      embedUrl = `https://player.vimeo.com/video/${vimMatch[1]}?autoplay=1`;
+    } else {
+      embedUrl = url;
+    }
+    return { title: it.title, caption: it.caption, embedUrl, thumbUrl, rawUrl: url };
+  });
+
+  grid.innerHTML = window._videoItems.map((it, i) => `
+    <div class="video-card">
+      <div class="video-thumb-wrap" onclick="openVideoModal(${i})">
+        ${it.thumbUrl
+          ? `<img src="${it.thumbUrl}" alt="${esc(it.title)}" loading="lazy"/>`
+          : `<div style="position:absolute;inset:0;background:var(--navy,#041844)"></div>`}
+        <div class="video-play-btn"><i class="fas fa-play-circle"></i></div>
       </div>
-      <div class="event-info" style="flex:1">
-        <div style="display:flex;gap:.6rem;margin-bottom:.5rem;flex-wrap:wrap">
-          <span style="font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .75rem;border-radius:20px;background:${ev.status === 'upcoming' ? 'var(--green)' : 'var(--muted)'};color:white">${esc(ev.status || 'event')}</span>
-        </div>
-        <h3 style="font-family:var(--font-display);font-size:1.25rem;color:var(--navy);margin-bottom:.4rem">${esc(ev.title)}</h3>
-        ${ev.excerpt ? `<p style="color:var(--muted);font-size:.9rem;line-height:1.7">${esc(ev.excerpt)}</p>` : ''}
-        ${ev.location ? `<div class="event-location"><i class="fas fa-map-marker-alt"></i>${esc(ev.location)}</div>` : ''}
-        <a href="${href}" class="event-card-link" onclick="event.stopPropagation()">View details <i class="fas fa-arrow-right"></i></a>
+      <div class="video-card-body">
+        <div class="video-card-title">${esc(it.title)}</div>
+        ${it.caption ? `<div class="video-card-caption">${esc(it.caption)}</div>` : ''}
       </div>
-    </div>`
-          })
-          .join('')
-      }
+    </div>`).join('');
+})();
 
-      function filterEvents(status) {
-        document
-          .querySelectorAll('#panel-events .btn')
-          .forEach((b) => (b.className = 'btn btn--outline-dark'))
-        document.getElementById(`filter-${status}`).className = 'btn btn--primary'
-        renderEvents(status === 'all' ? allEvents : allEvents.filter((e) => e.status === status))
-      }
+// EVENTS
+let allEvents = []
+;(async () => {
+  allEvents = await sq(
+    `*[_type=="event"]|order(eventDate desc){"slug":slug.current,_id,title,excerpt,eventDate,location,status,registrationUrl,"img":coverImage.asset->url}`,
+  )
+  renderEvents(allEvents)
+})()
 
-      // PRESS RELEASES
-      ;(async () => {
-        const items = await sq(
-          `*[_type=="mediaItem"&&type=="press_release"]|order(publishedAt desc){title,caption,publishedAt,"fileUrl":file.asset->url}`,
-        )
-        const el = document.getElementById('press-list')
-        if (!items.length) {
-          el.innerHTML = `<div class="empty-state"><i class="fas fa-file-alt"></i><p>No press releases yet. Add them in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
-          return
-        }
-        el.innerHTML = items
-          .map(
-            (it) => `
-  <div class="press-item" ${it.fileUrl ? `onclick="window.open('${esc(it.fileUrl)}','_blank')"` : ''}> 
-    <div style="flex-shrink:0;font-size:1.6rem;color:var(--navy)"><i class="fas fa-file-pdf"></i></div>
-    <div style="flex:1">
-      <div class="press-tag">Press Release</div>
-      <div class="press-title">${esc(it.title)}</div>
-      ${it.caption ? `<p style="font-size:.85rem;color:var(--muted);margin-top:.3rem">${esc(it.caption)}</p>` : ''}
+function renderEvents(evts) {
+  const el = document.getElementById('events-list')
+  if (!evts.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-times"></i><p>No events found. Add events in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
+    return
+  }
+  el.innerHTML = evts
+    .map((ev) => {
+      const d = ev.eventDate ? new Date(ev.eventDate) : null
+      const href = `event.html?slug=${esc(ev.slug || ev._id)}`
+      return `
+<div class="event-card" onclick="location.href='${href}'">
+  <div class="event-date-block">
+    <div class="event-date-day">${d ? d.getDate() : '--'}</div>
+    <div class="event-date-month">${d ? d.toLocaleString('en', {month: 'short'}) : '--'}</div>
+    <div class="event-date-year">${d ? d.getFullYear() : ''}</div>
+  </div>
+  <div class="event-info" style="flex:1">
+    <div style="display:flex;gap:.6rem;margin-bottom:.5rem;flex-wrap:wrap">
+      <span style="font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .75rem;border-radius:20px;background:${ev.status === 'upcoming' ? 'var(--green)' : 'var(--muted)'};color:white">${esc(ev.status || 'event')}</span>
     </div>
-    <div class="press-date">${fmt(it.publishedAt)}</div>
-    ${it.fileUrl ? `<a href="${esc(it.fileUrl)}" target="_blank" onclick="event.stopPropagation()" class="btn btn--outline-dark" style="padding:.5rem 1rem;font-size:.75rem;flex-shrink:0"><i class="fas fa-download"></i> PDF</a>` : ''}
-  </div>`,
-          )
-          .join('')
-      })()
+    <h3 style="font-family:var(--font-display);font-size:1.25rem;color:var(--navy);margin-bottom:.4rem">${esc(ev.title)}</h3>
+    ${ev.excerpt ? `<p style="color:var(--muted);font-size:.9rem;line-height:1.7">${esc(ev.excerpt)}</p>` : ''}
+    ${ev.location ? `<div class="event-location"><i class="fas fa-map-marker-alt"></i>${esc(ev.location)}</div>` : ''}
+    <a href="${href}" class="event-card-link" onclick="event.stopPropagation()">View details <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>`
+    })
+    .join('')
+}
 
-      // NEWSLETTERS
-      ;(async () => {
-        const items = await sq(
-          `*[_type=="mediaItem"&&type=="newsletter"]|order(publishedAt desc){title,caption,publishedAt,"fileUrl":file.asset->url}`,
-        )
-        const el = document.getElementById('newsletter-list')
-        if (!items.length) {
-          el.innerHTML = `<div class="empty-state"><i class="fas fa-envelope-open"></i><p>No newsletters yet. Add them in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
-          return
-        }
-        el.innerHTML = items
-          .map(
-            (it) => `
-  <div class="press-item" ${it.fileUrl ? `onclick="window.open('${esc(it.fileUrl)}','_blank')"` : ''}> 
-    <div style="flex-shrink:0;font-size:1.6rem;color:var(--green)"><i class="fas fa-envelope-open-text"></i></div>
-    <div style="flex:1">
-      <div class="press-tag" style="color:var(--green)">Newsletter</div>
-      <div class="press-title">${esc(it.title)}</div>
-      ${it.caption ? `<p style="font-size:.85rem;color:var(--muted);margin-top:.3rem">${esc(it.caption)}</p>` : ''}
-    </div>
-    <div class="press-date">${fmt(it.publishedAt)}</div>
-    ${it.fileUrl ? `<a href="${esc(it.fileUrl)}" target="_blank" onclick="event.stopPropagation()" class="btn btn--outline-dark" style="padding:.5rem 1rem;font-size:.75rem;flex-shrink:0"><i class="fas fa-download"></i> PDF</a>` : ''}
-  </div>`,
-          )
-          .join('')
-      })()
-    </script>
-  </body>
+function filterEvents(status) {
+  document
+    .querySelectorAll('#panel-events .btn')
+    .forEach((b) => (b.className = 'btn btn--outline-dark rounded-pill'))
+  document.getElementById(`filter-${status}`).className = 'btn btn--primary rounded-pill'
+  renderEvents(status === 'all' ? allEvents : allEvents.filter((e) => e.status === status))
+}
+
+
+// PRESS RELEASES
+;(async () => {
+  const items = await sq(
+    `*[_type=="pressRelease"]|order(publishedAt desc){"slug":slug.current,_id,title,excerpt,publishedAt,"imgUrl":coverImage.asset->url}`
+  )
+  const el = document.getElementById('press-list')
+  if (!items.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fas fa-file-alt"></i><p>No press releases yet. Add them in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
+    return
+  }
+  el.innerHTML = items.map((it) => {
+    const href = `press-release.html?slug=${esc(it.slug || it._id)}`
+    const thumbHtml = it.imgUrl
+      ? `<img class="press-thumb" src="${esc(it.imgUrl)}?w=400&h=300&fit=crop&auto=format&q=80" alt="${esc(it.title)}" loading="lazy"/>`
+      : `<div class="press-thumb-placeholder"><i class="fas fa-newspaper"></i></div>`
+    return `
+<div class="press-item" onclick="location.href='${href}'">
+  ${thumbHtml}
+  <div class="press-text">
+    <div class="press-tag">Press Release</div>
+    <div class="press-title">${esc(it.title)}</div>
+    ${it.excerpt ? `<p>${esc(it.excerpt)}</p>` : ''}
+  </div>
+  <div class="press-date" style="flex-shrink:0">${fmt(it.publishedAt)}</div>
+  <a href="${href}" class="btn btn--outline-dark" style="padding:.5rem 1rem;font-size:.75rem;flex-shrink:0" onclick="event.stopPropagation()">
+    Read More <i class="fas fa-arrow-right"></i>
+  </a>
+</div>`
+  }).join('')
+})()
+
+// NEWSLETTERS
+;(async () => {
+  const items = await sq(
+    `*[_type=="mediaItem"&&type=="newsletter"]|order(publishedAt desc){title,caption,publishedAt,"fileUrl":file.asset->url}`,
+  )
+  const el = document.getElementById('newsletter-list')
+  if (!items.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fas fa-envelope-open"></i><p>No newsletters yet. Add them in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`
+    return
+  }
+  el.innerHTML = items
+    .map(
+      (it) => `
+<div class="press-item" ${it.fileUrl ? `onclick="window.open('${esc(it.fileUrl)}','_blank')"` : ''}> 
+  <div style="flex-shrink:0;font-size:1.6rem;color:var(--green)"><i class="fas fa-envelope-open-text"></i></div>
+  <div style="flex:1">
+    <div class="press-tag" style="color:var(--green)">Newsletter</div>
+    <div class="press-title">${esc(it.title)}</div>
+    ${it.caption ? `<p style="font-size:.85rem;color:var(--muted);margin-top:.3rem">${esc(it.caption)}</p>` : ''}
+  </div>
+  <div class="press-date">${fmt(it.publishedAt)}</div>
+  ${it.fileUrl ? `<a href="${esc(it.fileUrl)}" target="_blank" onclick="event.stopPropagation()" class="btn btn--outline-dark" style="padding:.5rem 1rem;font-size:.75rem;flex-shrink:0"><i class="fas fa-download"></i> PDF</a>` : ''}
+</div>`,
+    )
+    .join('')
+})()
+</script>
+</body>
 </html>
