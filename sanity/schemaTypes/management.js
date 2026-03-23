@@ -47,11 +47,13 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'order',
-      title: 'Display Order',
-      type: 'number',
-      description: 'Lower number = shown first (e.g. CEO = 1)',
-    }),
+  name: 'order',
+  title: 'Display Order',
+  type: 'number',
+  description: 'Lower number = shown first (e.g. CEO = 1)',
+  validation: Rule => Rule.required().integer().positive(),
+}),
+   
   ],
   orderings: [
     {

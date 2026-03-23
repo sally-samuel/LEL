@@ -8,17 +8,16 @@
   <meta property="og:title" content="Levene Energy Holdings Limited"/>
   <meta property="og:description" content="Innovative solutions across the energy value chain."/>
   <meta property="og:type" content="website"/>
-    <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
-
   <meta property="og:image" content="./image/levenelogo.png"/>
-    <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
-
+  <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
   <link rel="stylesheet" href="./css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
 
+
 <div id="header-placeholder"></div>
+
 
 <script>
   fetch('header.html')
@@ -31,7 +30,7 @@
     })
     .catch(err => {
       console.error('Failed to load header:', err);
-    
+     
     });
 </script>
 
@@ -258,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-
+<!-- Hero slideshow -->
 <script>
 const slides = document.querySelectorAll('.hero-slide');
 const dots   = document.querySelectorAll('.hero-dot');
@@ -289,6 +288,7 @@ dots.forEach(d => {
 if (slides.length > 0) startSlider();
 </script>
 
+
 <script>
 
 const BASE = 'https://ilajnehi.apicdn.sanity.io/v2025-06-01/data/query/production';
@@ -316,6 +316,7 @@ async function sq(query) {
   }
 }
 
+// Subsidiaries preview
 const STATIC_SUBS = [
   { slug:'levene-hydrocarbon',       name:'Levene Hydrocarbon Limited', sector:'Upstream · Midstream',     desc:'Engaged in the exploration, production and development of crude oil and natural gas assets across Nigeria\'s prolific basins.', img:'./image/16.-Levene-Hydrocarbon-Webpage-Image.jpg' },
   { slug:'levene-energy-development',name:'Levene Energy Development',  sector:'Renewables · Development', desc:'Leading renewable energy projects including solar mini-grids, locally assembled solar panels and clean energy infrastructure.',   img:'./image/Solar-Mini-Grid-Project.jpg' },
@@ -355,7 +356,7 @@ const STATIC_SUBS = [
   grid.innerHTML = cards + ctaCard;
 })();
 
-
+// Management preview
 const GRADS = [
   'linear-gradient(135deg,#0a2460,#1e8a2e)',
   'linear-gradient(135deg,#0a3070,#041844)',
