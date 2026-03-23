@@ -9,6 +9,7 @@
   <meta property="og:description" content="Insights, updates and thought leadership from the energy sector.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="./image/levenelogo.png">
+  <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
 
   <link rel="stylesheet" href="./css/blog.css">
   <link rel="stylesheet" href="./css/style.css">
@@ -16,10 +17,9 @@
 </head>
 <body>
 
-<!-- Header placeholder – will be filled by JS -->
+
 <div id="header-placeholder"></div>
 
-<!-- Load shared header from root -->
 <script>
   fetch('header.html')
     .then(r => {
@@ -59,7 +59,6 @@
     .catch(err => console.error('Failed to load footer:', err));
 </script>
 
-<!-- Mobile menu logic (only once) -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.getElementById('hamburger');
@@ -94,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- Blog posts fetching & rendering -->
+
 <script type="module">
   const PROJECT_ID  = 'ilajnehi';
   const DATASET     = 'production';

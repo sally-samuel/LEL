@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title id="page-title">Subsidiary — Levene Energy Holdings Limited</title>
   <meta name="description" id="page-desc" content="Learn more about this Levene Energy Holdings subsidiary."/>
-  
+    <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
+
   <link rel="stylesheet" href="./css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -128,7 +129,6 @@
 </head>
 <body>
 
-<!-- Header -->
 <div id="header-placeholder"></div>
 
 <script>
@@ -141,7 +141,6 @@
     .catch(err => console.error('Failed to load header:', err));
 </script>
 
-<!-- Hero & Breadcrumb -->
 <div id="sub-hero-wrap"></div>
 
 <!-- Main Content -->
@@ -162,7 +161,7 @@
     .catch(err => console.error('Failed to load footer:', err));
 </script>
 
-<!-- Mobile Nav -->
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.getElementById('hamburger');
@@ -197,16 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- Subsidiary Detail Logic -->
+
 <script>
-// ── Helpers ──
+
 const esc = s => String(s || '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;');
 
-// Portable Text → HTML converter
 function ptToHtml(blocks) {
   if (!blocks?.length) return '<p>No content available.</p>';
   return blocks.map(block => {
@@ -224,7 +222,6 @@ function ptToHtml(blocks) {
   }).join('');
 }
 
-// Static fallback data (used if Sanity query fails or item not found)
 const STATIC = {
   "levene-hydrocarbon": {
     name: "Levene Hydrocarbon Limited",
@@ -278,7 +275,7 @@ function paint(sub, slug) {
     </div>
   </section>`;
 
-  // Convert Portable Text array to HTML, or fall back to plain string (static data)
+ 
   const bodyHtml = Array.isArray(sub.description)
     ? ptToHtml(sub.description)
     : sub.description || '<p>Content coming soon.</p>';
@@ -324,7 +321,6 @@ function paint(sub, slug) {
     console.error('Sanity error:', err);
   }
 
-  // Fallback to static data
   const fb = STATIC[slug];
   if (fb) {
     paint(fb, slug);

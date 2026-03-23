@@ -9,6 +9,7 @@
   <meta property="og:description" content="Gallery, events, press releases, newsletters and latest updates from Levene Energy."/>
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="./image/levenelogo.png"/>
+  <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
 
   <link rel="stylesheet" href="./css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -149,7 +150,7 @@
       color: var(--muted);
       line-height: 1.6;
     }
-    /* Inline video modal */
+  
     .video-modal-overlay {
       position: fixed;
       inset: 0;
@@ -221,7 +222,6 @@
     }
     .empty-state i { font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.6; }
 
-    /* Event cards */
     .event-card {
       display: flex;
       gap: 1.5rem;
@@ -238,7 +238,6 @@
       box-shadow: var(--shadow-deep);
     }
 
-    /* Press / Newsletter items */
     .press-item {
       display: flex;
       align-items: last baseline;
@@ -319,7 +318,6 @@
 </head>
 <body>
 
-<!-- Header -->
 <div id="header-placeholder"></div>
 
 <script>
@@ -471,7 +469,7 @@
 <!-- Scripts -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile nav
+
   const hamburger = document.getElementById('hamburger');
   const navList   = document.getElementById('nav-list');
   const navClose  = document.getElementById('nav-close');
@@ -505,7 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Tab switching logic
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => {
@@ -633,7 +630,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ── Sanity loading scripts ──
 const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const fmt = d => d ? new Date(d).toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'}) : '';
 
@@ -649,7 +645,7 @@ async function sq(q) {
   }
 }
 
-// Gallery
+
 ;(async () => {
   const items = await sq(
     `*[_type=="mediaItem"&&type=="photo"]|order(publishedAt desc)[0...24]{title,"url":image.asset->url,caption}`

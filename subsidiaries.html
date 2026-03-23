@@ -9,13 +9,13 @@
   <meta property="og:description" content="Discover our companies across the full energy value chain — from exploration to renewables."/>
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="./image/levenelogo.png"/>
+  <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
 
   <link rel="stylesheet" href="./css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
 
-<!-- Header -->
 <div id="header-placeholder"></div>
 
 <script>
@@ -69,10 +69,9 @@
     .catch(err => console.error('Failed to load footer:', err));
 </script>
 
-<!-- Scripts -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile nav (only once)
+
   const hamburger = document.getElementById('hamburger');
   const navList   = document.getElementById('nav-list');
   const navClose  = document.getElementById('nav-close');
@@ -105,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- Subsidiaries Loading -->
+
 <script>
 const esc = s => String(s || '')
   .replace(/&/g, '&amp;')

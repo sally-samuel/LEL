@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title id="page-title">Blog Post — Levene Energy Holdings</title>
   <meta name="description" id="page-desc" content="Read the latest insights from Levene Energy Holdings."/>
+  <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
 
   <link rel="stylesheet" href="./css/post.css"/>
   <link rel="stylesheet" href="./css/style.css"/>
@@ -12,7 +13,6 @@
 </head>
 <body>
 
-<!-- Header -->
 <div id="header-placeholder"></div>
 
 <script>
@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-<!-- Article Loading & Rendering -->
+
 <script>
-// ── Helpers ──
+
 function esc(s) {
   return String(s || '')
     .replace(/&/g, '&amp;')
@@ -109,7 +109,7 @@ function improveImageUrl(url, width = 900) {
   return `${url}?w=${width}&auto=format&fit=crop&q=80`;
 }
 
-// Simple Portable Text → HTML renderer (expand as needed)
+
 function ptToHtml(blocks) {
   if (!blocks?.length) return '<p>No content available.</p>';
   return blocks

@@ -9,6 +9,8 @@
   <meta property="og:description" content="Reach out for partnerships, investments, media, or general enquiries."/>
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="./image/levenelogo.png"/>
+    <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
+
   <link rel="stylesheet" href="./css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -27,7 +29,6 @@
 </head>
 <body>
 
-<!-- Header -->
 <div id="header-placeholder"></div>
 
 <script>
@@ -58,7 +59,7 @@
 <!-- ===== CONTACT SECTION ===== -->
 <section class="contact-section">
 
-  <!-- LEFT: Office info -->
+
   <div class="contact-info">
     <h2>Our global <em>offices</em></h2>
     <p style="color:var(--muted);margin-bottom:1.75rem">Levene Energies Limited operates from four locations, combining deep local knowledge with international reach.</p>
@@ -133,7 +134,7 @@
     </div>
   </div>
 
-  <!-- RIGHT: Contact form -->
+
   <div class="contact-form-wrap">
     <h3>Send us a message</h3>
 
@@ -207,7 +208,7 @@
 
 </section>
 
-<!-- ===== MAP (Lagos HQ) ===== -->
+
 <div class="map-section">
   <iframe
     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.7296428936937!2d3.4278!3d6.4488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf53b3b4e4f41%3A0x0!2sIkoyi%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1700000000000!5m2!1sen!2sng"
@@ -223,9 +224,10 @@
     .then(html => document.getElementById('footer-placeholder').innerHTML = html)
     .catch(err => console.error('Failed to load footer:', err));
 </script>
-<!-- ===== SCRIPTS ===== -->
+
+
 <script>
-// ===== MOBILE NAV =====
+
 document.addEventListener('DOMContentLoaded', function () {
   var hamburger = document.getElementById('hamburger');
   var navList   = document.getElementById('nav-list');
@@ -256,7 +258,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// ===== OFFICE TAB SWITCHER =====
 function showOffice(index, btn) {
   document.querySelectorAll('.office-tab-btn').forEach(function(b) { b.classList.remove('active'); });
   btn.classList.add('active');
@@ -265,7 +266,6 @@ function showOffice(index, btn) {
   });
 }
 
-// ===== FORM VALIDATION =====
 function submitForm() {
   var fields = [
     { id: 'f-name',    err: 'err-name',    check: function(v) { return v.trim().length > 0; } },
