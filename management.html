@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Management Team — Levene Energies  Limited</title>
+  <title>Management Team — Levene Energy Holdings Limited</title>
   <meta name="description" content="Meet the experienced leadership team driving Levene Energy Holdings Limited."/>
-  <meta property="og:title" content="Management Team — Levene Energies Limited"/>
+  <meta property="og:title" content="Management Team — Levene Energy Holdings"/>
   <meta property="og:description" content="Our leaders bring decades of experience across international and Nigerian energy markets."/>
   <meta property="og:type" content="website"/>
   <meta property="og:image" content="./image/levenelogo.png"/>
   <link rel="shortcut icon" href="./image/levene-energies.png" type="image/x-icon">
+
   <link rel="stylesheet" href="./css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -40,15 +41,15 @@
       cursor: pointer;
       transition: transform .25s var(--ease), box-shadow .25s var(--ease);
     }
-    .team-card:hover { transform: translateY(-6px);
-       box-shadow: var(--shadow-deep); 
-       }
+    .team-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-deep);
+    }
 
     .team-photo {
       aspect-ratio: 3/4;
       overflow: hidden;
-            background: #174caa;
-
+      background: #174caa;
       position: relative;
     }
     .team-photo img {
@@ -191,6 +192,7 @@
   <p>Interested in exploring career or partnership opportunities with Levene Energy Holdings?</p>
   <a href="contact.html" class="btn btn--green">Get In Touch</a>
 </section>
+
 <div id="footer-placeholder"></div>
 
 <script>
@@ -234,7 +236,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
-
 <script>
 const GRADS = [
   'linear-gradient(135deg,#0a2460,#1e8a2e)',
@@ -254,12 +255,16 @@ function esc(s) {
 function render(people) {
   const grid = document.getElementById('mgmt-grid');
   if (!people.length) {
-    grid.innerHTML = `<div class="team-empty"><i class="fas fa-users"></i><p>No profiles found. Add team members in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p></div>`;
+    grid.innerHTML = `
+      <div class="team-empty">
+        <i class="fas fa-users"></i>
+        <p>No profiles found. Add team members in <a href="https://leveneenergy-studio.sanity.studio" target="_blank">Sanity Studio</a>.</p>
+      </div>`;
     return;
   }
 
   grid.innerHTML = people.map((p, i) => {
-    const href     = `team-member.html?slug=${esc(p.slug || p._id || '')}`;
+    const href     = `team-member.html?slug=${esc(p.slug || p._id)}`;
     const photoSrc = p.photoUrl ? `${p.photoUrl}?w=480&h=640&fit=crop&q=80` : null;
 
     return `
@@ -282,15 +287,32 @@ function render(people) {
 
 (async () => {
   const BASE = 'https://ilajnehi.apicdn.sanity.io/v2025-06-01/data/query/production';
-  const q = `*[_type=="management"]|order(order asc){_id,"slug":slug.current,name,designation,"photoUrl":photo.asset->url}`;
+
+ 
+  const q = `*[_type=="management"]|order(coalesce(order,999) asc){
+    _id,
+    "slug":slug.current,
+    name,
+    designation,
+    order,
+    "photoUrl":photo.asset->url
+  }`;
 
   try {
     const res = await fetch(`${BASE}?query=${encodeURIComponent(q)}`);
-    if (!res.ok) throw new Error('Sanity fetch failed');
+    if (!res.ok) throw new Error(`Sanity fetch failed: ${res.status}`);
     const data = await res.json();
-    render(data.result || []);
+    const people = data.result || [];
+
+    console.table(people.map(p => ({
+      name: p.name,
+      order: p.order ?? '⚠ null — set in Studio',
+      slug: p.slug ?? '⚠ null — set in Studio',
+    })));
+
+    render(people);
   } catch (err) {
-    console.error(err);
+    console.error('Management team load error:', err);
     render([]);
   }
 })();
